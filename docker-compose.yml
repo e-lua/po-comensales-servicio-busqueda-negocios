@@ -1,0 +1,48 @@
+version: "3.3"
+
+services: 
+  app:
+    container_name: restonercomensal_app_servicio_busqueda_informacion
+    restart: always 
+    build: .
+    networks:
+      - backend
+    ports:
+      - "6850:6200"
+    links:
+      - postgres
+  postgres:
+    container_name: postgres_db
+    restart: always
+    image: "postgres:13"
+    networks:
+      - backend
+    ports:
+      - "7000:5432"
+    environment:
+      - DATABASE_HOST=127.0.0.1
+      - POSTGRES_USER=postgresxd
+      - POSTGRES_PASSWORD=postgresxd
+      - POSTGRES_DB=postgresxd
+  pgadmin:
+    restart: always
+    image: "dpage/pgadmin4"
+    networks:
+      - backend
+    ports:
+      - "90:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admincd@admincd.com
+      PGADMIN_DEFAULT_PASSWORD: admincd
+    depends_on:
+      - postgres
+networks:
+  backend:
+
+
+
+
+
+
+
+
