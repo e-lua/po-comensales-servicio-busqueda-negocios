@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"time"
 
 	models "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/models"
 	informacion "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/services/informacion_de_negocio"
@@ -74,8 +73,6 @@ func Consumer_Paymenth() {
 				log.Fatal("Error decoding")
 			}
 			informacion.InformationRouter_pg.RegisterPaymenth(anfitrion)
-
-			time.Sleep(10 * time.Second)
 		}
 	}()
 
