@@ -11,7 +11,7 @@ var PostgresCN = Conectar_Pg_DB()
 
 func Conectar_Pg_DB() *pgxpool.Pool {
 
-	urlString := "postgres://postgresxd:postgresxd@161.35.226.104:5432/postgresxd?pool_max_conns=50"
+	urlString := "postgres://postgresxd:postgresxd@postgres:5432/postgresxd?pool_max_conns=50"
 
 	config, error_connec_pg := pgxpool.ParseConfig(urlString)
 
