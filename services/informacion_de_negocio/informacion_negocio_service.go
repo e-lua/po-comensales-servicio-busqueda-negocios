@@ -14,7 +14,7 @@ import (
 func RegisterPaymenth_Service(input_mqtt_payment models.Mqtt_PaymentMethod) error {
 
 	//Insertamos los datos en PG
-	error_add_pg := payment_business_repository.Pg_Add(input_mqtt_payment)
+	error_add_pg := payment_business_repository.Pg_Update(input_mqtt_payment)
 	if error_add_pg != nil {
 		log.Fatal(error_add_pg)
 	}
