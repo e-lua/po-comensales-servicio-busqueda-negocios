@@ -64,8 +64,6 @@ func Consumer_Paymenth() {
 		log.Fatal("Error connection cola " + err_consume.Error())
 	}
 
-	noStop := make(chan bool)
-
 	go func() {
 		for d := range msgs {
 			var anfitrion models.Mqtt_PaymentMethod
@@ -81,5 +79,4 @@ func Consumer_Paymenth() {
 		}
 	}()
 
-	<-noStop
 }
