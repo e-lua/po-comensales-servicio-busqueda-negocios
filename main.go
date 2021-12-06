@@ -1,7 +1,7 @@
 package main
 
 import (
-	handler "github.com/Aphofisis/po-comensal-servicio-busqueda-negocios/api/handlers"
+	handler "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/api/handlers"
 )
 
 func main() {
