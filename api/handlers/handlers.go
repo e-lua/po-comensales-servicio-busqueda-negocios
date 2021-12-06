@@ -23,7 +23,7 @@ func Manejadores() {
 	e.Use(middleware.Recover())
 
 	//Consumidor-MQTT
-	go Consumer_Paymenth()
+	//go Consumer_Paymenth()
 
 	e.GET("/", index)
 	//VERSION
