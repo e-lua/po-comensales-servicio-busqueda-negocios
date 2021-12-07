@@ -36,21 +36,6 @@ type Mqtt_Day struct {
 	IsAvaiable bool   `bson:"available" json:"available"`
 }
 
-type Mqtt_TypeFood struct {
-	IDTypeFood int    `bson:"id" json:"id"`
-	Name       string `bson:"name" json:"name"`
-	UrlImage   string `bson:"url" json:"url"`
-}
-
-type Mqtt_Service struct {
-	IDService  int     `bson:"id" json:"id"`
-	Name       string  `bson:"name" json:"name"`
-	Price      float32 `bson:"price" json:"price"`
-	Url        string  `bson:"url" json:"url"`
-	TypeMoney  int     `bson:"typemoney" json:"typemoney"`
-	IsAvaiable bool    `bson:"available" json:"available"`
-}
-
 type Mqtt_PaymenthMeth struct {
 	IDPaymenth  int    `bson:"id" json:"id"`
 	Name        string `bson:"name" json:"name"`
@@ -71,4 +56,41 @@ type Mqtt_PaymentMethod struct {
 	Idbusiness_pg  []int  `json:"idbusiness_pg"`
 	Idpaymenth_pg  []int  `json:"idpaymenth_pg"`
 	Isavailable_pg []bool `json:"isavailable_pg"`
+}
+
+type Mqtt_Service struct {
+	IdBusiness     int    `json:"idbusiness"`
+	Idbusiness_pg  []int  `json:"idbusiness_pg"`
+	Idservice_pg   []int  `json:"idservice_pg"`
+	Isavailable_pg []bool `json:"isavailable_pg"`
+}
+
+type Mqtt_TypeFood struct {
+	IdBusiness     int    `json:"idbusiness"`
+	Idbusiness_pg  []int  `json:"idbusiness_pg"`
+	Idtypefood_pg  []int  `json:"Idtypefood_pg"`
+	Isavailable_pg []bool `json:"isavailable_pg"`
+}
+
+type Mqtt_Addres struct {
+	IdBusiness int     `json:"idbusiness"`
+	Latitude   float64 `json:"latitude"`
+	Longitude  float64 `json:"longitude"`
+}
+
+type Mqtt_IsOpen struct {
+	IdBusiness int  `json:"idbusiness"`
+	IsaOpen    bool `json:"isopen"`
+}
+
+type Mqtt_Name struct {
+	IdBusiness int    `json:"idbusiness"`
+	Name       string `json:"name"`
+}
+
+type Mqtt_Banner_Cola struct {
+	IdBusiness                int    `bson:"idbusiness" json:"idbusiness"`
+	IdBanner_Category_Element int    `json:"idbCE"`
+	IdType                    int    `json:"idtype"`
+	Url                       string `bson:"url" json:"url"`
 }

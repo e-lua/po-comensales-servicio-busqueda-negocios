@@ -24,6 +24,12 @@ func Manejadores() {
 
 	//Consumidor-MQTT
 	go Consumer_Paymenth()
+	go Consumer_Service()
+	go Consumer_Typefood()
+	go Consumer_Name()
+	go Consumer_Banner()
+	go Consumer_Address()
+	go Consumer_Open()
 
 	e.GET("/", index)
 	//VERSION
@@ -66,16 +72,196 @@ func Consumer_Paymenth() {
 
 	go func() {
 		for d := range msgs {
-			var anfitrion models.Mqtt_PaymentMethod
+			var paymenth models.Mqtt_PaymentMethod
 			buf := bytes.NewBuffer(d.Body)
 			decoder := json.NewDecoder(buf)
-			err_consume := decoder.Decode(&anfitrion)
+			err_consume := decoder.Decode(&paymenth)
 			if err_consume != nil {
 				log.Fatal("Error decoding")
 			}
-			informacion.InformationRouter_pg.RegisterPaymenth(anfitrion)
+			informacion.InformationRouter_pg.UpdatePaymenth(paymenth)
 
-			time.Sleep(10 * time.Second)
+			time.Sleep(5 * time.Second)
+		}
+	}()
+
+}
+
+func Consumer_Service() {
+
+	ch, error_conection := models.MqttCN.Channel()
+	if error_conection != nil {
+		defer ch.Close()
+		log.Fatal("Error connection canal " + error_conection.Error())
+	}
+
+	msgs, err_consume := ch.Consume("anfitrion/service", "", true, false, false, false, nil)
+	if err_consume != nil {
+		log.Fatal("Error connection cola " + err_consume.Error())
+	}
+
+	go func() {
+		for d := range msgs {
+			var service models.Mqtt_Service
+			buf := bytes.NewBuffer(d.Body)
+			decoder := json.NewDecoder(buf)
+			err_consume := decoder.Decode(&service)
+			if err_consume != nil {
+				log.Fatal("Error decoding")
+			}
+			informacion.InformationRouter_pg.UpdateService(service)
+
+			time.Sleep(5 * time.Second)
+		}
+	}()
+
+}
+
+func Consumer_Typefood() {
+
+	ch, error_conection := models.MqttCN.Channel()
+	if error_conection != nil {
+		defer ch.Close()
+		log.Fatal("Error connection canal " + error_conection.Error())
+	}
+
+	msgs, err_consume := ch.Consume("anfitrion/typefood", "", true, false, false, false, nil)
+	if err_consume != nil {
+		log.Fatal("Error connection cola " + err_consume.Error())
+	}
+
+	go func() {
+		for d := range msgs {
+			var typefood models.Mqtt_TypeFood
+			buf := bytes.NewBuffer(d.Body)
+			decoder := json.NewDecoder(buf)
+			err_consume := decoder.Decode(&typefood)
+			if err_consume != nil {
+				log.Fatal("Error decoding")
+			}
+			informacion.InformationRouter_pg.UpdateTypeFood(typefood)
+
+			time.Sleep(5 * time.Second)
+		}
+	}()
+
+}
+
+func Consumer_Name() {
+
+	ch, error_conection := models.MqttCN.Channel()
+	if error_conection != nil {
+		defer ch.Close()
+		log.Fatal("Error connection canal " + error_conection.Error())
+	}
+
+	msgs, err_consume := ch.Consume("anfitrion/name", "", true, false, false, false, nil)
+	if err_consume != nil {
+		log.Fatal("Error connection cola " + err_consume.Error())
+	}
+
+	go func() {
+		for d := range msgs {
+			var name models.Mqtt_Name
+			buf := bytes.NewBuffer(d.Body)
+			decoder := json.NewDecoder(buf)
+			err_consume := decoder.Decode(&name)
+			if err_consume != nil {
+				log.Fatal("Error decoding")
+			}
+			informacion.InformationRouter_pg.UpdateName(name)
+
+			time.Sleep(5 * time.Second)
+		}
+	}()
+
+}
+
+func Consumer_Banner() {
+
+	ch, error_conection := models.MqttCN.Channel()
+	if error_conection != nil {
+		defer ch.Close()
+		log.Fatal("Error connection canal " + error_conection.Error())
+	}
+
+	msgs, err_consume := ch.Consume("anfitrion/banner", "", true, false, false, false, nil)
+	if err_consume != nil {
+		log.Fatal("Error connection cola " + err_consume.Error())
+	}
+
+	go func() {
+		for d := range msgs {
+			var banner models.Mqtt_Banner_Cola
+			buf := bytes.NewBuffer(d.Body)
+			decoder := json.NewDecoder(buf)
+			err_consume := decoder.Decode(&banner)
+			if err_consume != nil {
+				log.Fatal("Error decoding")
+			}
+			informacion.InformationRouter_pg.UpdateBanner(banner)
+
+			time.Sleep(5 * time.Second)
+		}
+	}()
+
+}
+
+func Consumer_Address() {
+
+	ch, error_conection := models.MqttCN.Channel()
+	if error_conection != nil {
+		defer ch.Close()
+		log.Fatal("Error connection canal " + error_conection.Error())
+	}
+
+	msgs, err_consume := ch.Consume("anfitrion/address", "", true, false, false, false, nil)
+	if err_consume != nil {
+		log.Fatal("Error connection cola " + err_consume.Error())
+	}
+
+	go func() {
+		for d := range msgs {
+			var address models.Mqtt_Addres
+			buf := bytes.NewBuffer(d.Body)
+			decoder := json.NewDecoder(buf)
+			err_consume := decoder.Decode(&address)
+			if err_consume != nil {
+				log.Fatal("Error decoding")
+			}
+			informacion.InformationRouter_pg.UpdateAddress(address)
+
+			time.Sleep(5 * time.Second)
+		}
+	}()
+
+}
+
+func Consumer_Open() {
+
+	ch, error_conection := models.MqttCN.Channel()
+	if error_conection != nil {
+		defer ch.Close()
+		log.Fatal("Error connection canal " + error_conection.Error())
+	}
+
+	msgs, err_consume := ch.Consume("anfitrion/isopen", "", true, false, false, false, nil)
+	if err_consume != nil {
+		log.Fatal("Error connection cola " + err_consume.Error())
+	}
+
+	go func() {
+		for d := range msgs {
+			var open models.Mqtt_IsOpen
+			buf := bytes.NewBuffer(d.Body)
+			decoder := json.NewDecoder(buf)
+			err_consume := decoder.Decode(&open)
+			if err_consume != nil {
+				log.Fatal("Error decoding")
+			}
+			informacion.InformationRouter_pg.UpdateOpen(open)
+
+			time.Sleep(5 * time.Second)
 		}
 	}()
 
