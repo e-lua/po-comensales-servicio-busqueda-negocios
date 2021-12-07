@@ -11,18 +11,6 @@ var InformationRouter_pg *informationRouter_pg
 type informationRouter_pg struct {
 }
 
-/*
-func GetJWT(jwt string) (int, bool, string, int) {
-	//Obtenemos los datos del auth
-	respuesta, _ := http.Get("http://147.182.232.30:3000/v1/trylogin?jwt=" + jwt)
-	var get_respuesta ResponseJWT
-	error_decode_respuesta := json.NewDecoder(respuesta.Body).Decode(&get_respuesta)
-	if error_decode_respuesta != nil {
-		return 500, true, "Error en el sevidor interno al intentar decodificar la autenticacion, detalles: " + error_decode_respuesta.Error(), 0
-	}
-	return 200, false, "", get_respuesta.Data.IDComensal
-}*/
-
 /*----------------------UPDATE MQTT DATA----------------------*/
 
 func (cr *informationRouter_pg) UpdatePaymenth(inputserialize_payment models.Mqtt_PaymentMethod) {

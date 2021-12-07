@@ -9,6 +9,7 @@ import (
 	"time"
 
 	models "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/models"
+	busqueda "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/services/busqueda_de_negocios"
 	informacion "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/services/informacion_de_negocio"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -33,11 +34,11 @@ func Manejadores() {
 
 	e.GET("/", index)
 	//VERSION
-	//version_1 := e.Group("/v1")
+	version_1 := e.Group("/v1")
 
 	//V1 FROM V1 TO ...TO ENTITY BUSINESS
-	//router_business := version_1.Group("/business")
-	//router_business.GET("/:idbusiness", informacion.InformationRouter_pg.GetInformationData_Pg)
+	router_business := version_1.Group("/business")
+	router_business.GET("/:idbusiness", busqueda.BusquedaRouter_pg.GetInformationOneBusiness)
 
 	//Abrimos el puerto
 	PORT := os.Getenv("PORT")
