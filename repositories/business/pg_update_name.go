@@ -14,6 +14,6 @@ func Pg_UpdateName(input_mqtt_name models.Mqtt_Name) error {
 	if _, err_update := db.Exec(context.Background(), query, input_mqtt_name.Name, input_mqtt_name.IdBusiness); err_update != nil {
 		return err_update
 	}
-	defer db.Close()
+
 	return nil
 }

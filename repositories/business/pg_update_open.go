@@ -14,6 +14,6 @@ func Pg_UpdateIsOpen(input_mqtt_open models.Mqtt_IsOpen) error {
 	if _, err_update := db.Exec(context.Background(), query, input_mqtt_open.IsaOpen, input_mqtt_open.IdBusiness); err_update != nil {
 		return err_update
 	}
-	defer db.Close()
+
 	return nil
 }

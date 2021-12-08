@@ -15,6 +15,5 @@ func Pg_Update(input_mqtt_service models.Mqtt_Service) error {
 		return err
 	}
 
-	defer db.Close()
 	return nil
 }

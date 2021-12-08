@@ -15,6 +15,5 @@ func Pg_UpdateAddress(input_mqtt_address models.Mqtt_Addres) error {
 		return err
 	}
 
-	defer db.Close()
 	return nil
 }

@@ -14,6 +14,6 @@ func Pg_UpdateAddress(urlphoto string, idbusiness int) error {
 	if _, err_update := db.Exec(context.Background(), query, urlphoto, idbusiness); err_update != nil {
 		return err_update
 	}
-	defer db.Close()
+
 	return nil
 }

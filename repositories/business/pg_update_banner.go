@@ -14,6 +14,5 @@ func Pg_UpdateBanner(input_mqtt_banner models.Mqtt_Banner_Cola) error {
 	if _, err_update := db.Exec(context.Background(), query, input_mqtt_banner.Url, input_mqtt_banner.IdBusiness); err_update != nil {
 		return err_update
 	}
-	defer db.Close()
 	return nil
 }

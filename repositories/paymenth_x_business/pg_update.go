@@ -15,6 +15,5 @@ func Pg_Update(input_mqtt_paymenth models.Mqtt_PaymentMethod) error {
 		return err
 	}
 
-	defer db.Close()
 	return nil
 }

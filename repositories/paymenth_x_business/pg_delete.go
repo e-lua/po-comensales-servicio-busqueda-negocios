@@ -17,6 +17,5 @@ func Pg_Delete(idbusiness int) error {
 		return err
 	}
 
-	defer db.Close()
 	return nil
 }

@@ -15,6 +15,5 @@ func Pg_Update(input_mqtt_typefood models.Mqtt_TypeFood) error {
 		return err
 	}
 
-	defer db.Close()
 	return nil
 }
