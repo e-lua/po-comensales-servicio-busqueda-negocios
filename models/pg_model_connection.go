@@ -2,25 +2,24 @@ package models
 
 import (
 	"context"
-	"log"
+	"sync"
 
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 var PostgresCN = Conectar_Pg_DB()
 
+var (
+	once_pg sync.Once
+	p_pg    *pgxpool.Pool
+)
+
 func Conectar_Pg_DB() *pgxpool.Pool {
 
-	urlString := "postgres://postgresxd:postgresxd@postgres:5432/postgresxd?pool_max_conns=50"
-
-	config, error_connec_pg := pgxpool.ParseConfig(urlString)
-
-	if error_connec_pg != nil {
-		log.Fatal("Error en el servidor interno en el driver de PostgreSQL, mayor detalle: " + error_connec_pg.Error())
-		return nil
-	}
-
-	conn, _ := pgxpool.ConnectConfig(context.Background(), config)
-
-	return conn
+	once_pg.Do(func() {
+		urlString := "postgres://postgresxd:postgresxd@postgres:5432/postgresxd?pool_max_conns=50"
+		config, _ := pgxpool.ParseConfig(urlString)
+		p_pg, _ = pgxpool.ConnectConfig(context.Background(), config)
+	})
+	return p_pg
 }
