@@ -62,7 +62,6 @@ func Consumer_Paymenth() {
 
 	ch, error_conection := models.MqttCN.Channel()
 	if error_conection != nil {
-		defer ch.Close()
 		log.Fatal("Error connection canal " + error_conection.Error())
 	}
 
@@ -92,7 +91,6 @@ func Consumer_Service() {
 
 	ch, error_conection := models.MqttCN.Channel()
 	if error_conection != nil {
-		defer ch.Close()
 		log.Fatal("Error connection canal " + error_conection.Error())
 	}
 
@@ -122,7 +120,6 @@ func Consumer_Typefood() {
 
 	ch, error_conection := models.MqttCN.Channel()
 	if error_conection != nil {
-		defer ch.Close()
 		log.Fatal("Error connection canal " + error_conection.Error())
 	}
 
@@ -152,7 +149,6 @@ func Consumer_Name() {
 
 	ch, error_conection := models.MqttCN.Channel()
 	if error_conection != nil {
-		defer ch.Close()
 		log.Fatal("Error connection canal " + error_conection.Error())
 	}
 
@@ -182,7 +178,6 @@ func Consumer_Banner() {
 
 	ch, error_conection := models.MqttCN.Channel()
 	if error_conection != nil {
-		defer ch.Close()
 		log.Fatal("Error connection canal " + error_conection.Error())
 	}
 
@@ -212,7 +207,6 @@ func Consumer_Address() {
 
 	ch, error_conection := models.MqttCN.Channel()
 	if error_conection != nil {
-		defer ch.Close()
 		log.Fatal("Error connection canal " + error_conection.Error())
 	}
 
@@ -242,7 +236,6 @@ func Consumer_Open() {
 
 	ch, error_conection := models.MqttCN.Channel()
 	if error_conection != nil {
-		defer ch.Close()
 		log.Fatal("Error connection canal " + error_conection.Error())
 	}
 
