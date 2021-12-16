@@ -28,6 +28,15 @@ func GetJWT(jwt string) (int, bool, string, int) {
 
 /*----------------------INICIA EL ROUTER----------------------*/
 
+func (br *busquedaRouter_pg) GetAllBusiness(c echo.Context) error {
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := GetAllBusiness_Service()
+	results := ResponseJsonPostgreSQL{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+
+}
+
 func (br *busquedaRouter_pg) GetInformationOneBusiness(c echo.Context) error {
 
 	//Obtenemos los datos del auth

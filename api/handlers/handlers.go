@@ -38,6 +38,7 @@ func Manejadores() {
 
 	//V1 FROM V1 TO ...TO ENTITY BUSINESS
 	router_business := version_1.Group("/business")
+	router_business.GET("/", busqueda.BusquedaRouter_pg.GetAllBusiness)
 	router_business.GET("/:idbusiness", busqueda.BusquedaRouter_pg.GetInformationOneBusiness)
 
 	//Abrimos el puerto
@@ -70,6 +71,8 @@ func Consumer_Paymenth() {
 		log.Fatal("Error connection cola " + err_consume.Error())
 	}
 
+	noStopPaymenth := make(chan bool)
+
 	go func() {
 		for d := range msgs {
 			var paymenth models.Mqtt_PaymentMethod
@@ -85,6 +88,7 @@ func Consumer_Paymenth() {
 		}
 	}()
 
+	<-noStopPaymenth
 }
 
 func Consumer_Service() {
@@ -98,6 +102,8 @@ func Consumer_Service() {
 	if err_consume != nil {
 		log.Fatal("Error connection cola " + err_consume.Error())
 	}
+
+	noStopService := make(chan bool)
 
 	go func() {
 		for d := range msgs {
@@ -114,6 +120,7 @@ func Consumer_Service() {
 		}
 	}()
 
+	<-noStopService
 }
 
 func Consumer_Typefood() {
@@ -127,6 +134,8 @@ func Consumer_Typefood() {
 	if err_consume != nil {
 		log.Fatal("Error connection cola " + err_consume.Error())
 	}
+
+	noStopTypeFood := make(chan bool)
 
 	go func() {
 		for d := range msgs {
@@ -143,6 +152,7 @@ func Consumer_Typefood() {
 		}
 	}()
 
+	<-noStopTypeFood
 }
 
 func Consumer_Name() {
@@ -156,6 +166,8 @@ func Consumer_Name() {
 	if err_consume != nil {
 		log.Fatal("Error connection cola " + err_consume.Error())
 	}
+
+	noStopName := make(chan bool)
 
 	go func() {
 		for d := range msgs {
@@ -172,6 +184,7 @@ func Consumer_Name() {
 		}
 	}()
 
+	<-noStopName
 }
 
 func Consumer_Banner() {
@@ -185,6 +198,8 @@ func Consumer_Banner() {
 	if err_consume != nil {
 		log.Fatal("Error connection cola " + err_consume.Error())
 	}
+
+	noStopBanner := make(chan bool)
 
 	go func() {
 		for d := range msgs {
@@ -201,6 +216,7 @@ func Consumer_Banner() {
 		}
 	}()
 
+	<-noStopBanner
 }
 
 func Consumer_Address() {
@@ -214,6 +230,8 @@ func Consumer_Address() {
 	if err_consume != nil {
 		log.Fatal("Error connection cola " + err_consume.Error())
 	}
+
+	noStopAddress := make(chan bool)
 
 	go func() {
 		for d := range msgs {
@@ -230,6 +248,7 @@ func Consumer_Address() {
 		}
 	}()
 
+	<-noStopAddress
 }
 
 func Consumer_Open() {
@@ -243,6 +262,8 @@ func Consumer_Open() {
 	if err_consume != nil {
 		log.Fatal("Error connection cola " + err_consume.Error())
 	}
+
+	noStopOpen := make(chan bool)
 
 	go func() {
 		for d := range msgs {
@@ -259,4 +280,5 @@ func Consumer_Open() {
 		}
 	}()
 
+	<-noStopOpen
 }

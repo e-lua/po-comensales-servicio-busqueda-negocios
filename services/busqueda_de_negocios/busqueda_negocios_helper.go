@@ -1,5 +1,7 @@
 package busqueda
 
+import "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/models"
+
 type ResponseJWT struct {
 	Error     bool   `json:"error"`
 	DataError string `json:"dataError"`
@@ -18,4 +20,10 @@ type Response struct {
 	Error     bool   `json:"error"`
 	DataError string `json:"dataError"`
 	Data      string `json:"data"`
+}
+
+type ResponseJsonPostgreSQL struct {
+	Error     bool                     `json:"error"`
+	DataError string                   `json:"dataError"`
+	Data      []models.Json_Postgresql `json:"data"`
 }

@@ -23,8 +23,6 @@ func UpdatePaymenth_Service(input_mqtt_payment models.Mqtt_PaymentMethod) error 
 		log.Fatal(error_delete_pg)
 	}
 
-	time.Sleep(1 * time.Second)
-
 	//Insertamos los datos en PG
 	go func() {
 		error_add_pg := payment_business_repository.Pg_Update(input_mqtt_payment)
@@ -46,8 +44,6 @@ func UpdateService_Service(input_mqtt_service models.Mqtt_Service) error {
 		log.Fatal(error_delete_pg)
 	}
 
-	time.Sleep(1 * time.Second)
-
 	//Insertamos los datos en PG
 	go func() {
 		error_add_pg := service_business_repository.Pg_Update(input_mqtt_service)
@@ -68,8 +64,6 @@ func UpdateTypeFood_Service(input_mqtt_typefood models.Mqtt_TypeFood) error {
 	if error_delete_pg != nil {
 		log.Fatal(error_delete_pg)
 	}
-
-	time.Sleep(1 * time.Second)
 
 	//Insertamos los datos en PG
 	go func() {
@@ -101,8 +95,6 @@ func UpdateName_Service(input_mqtt_name models.Mqtt_Name) error {
 
 func UpdateOpen_Service(input_mqtt_open models.Mqtt_IsOpen) error {
 
-	time.Sleep(1 * time.Second)
-
 	//Insertamos los datos en PG
 	go func() {
 		error_add_pg := business_repository.Pg_UpdateIsOpen(input_mqtt_open)
@@ -117,8 +109,6 @@ func UpdateOpen_Service(input_mqtt_open models.Mqtt_IsOpen) error {
 }
 
 func UpdateAddress_Service(input_mqtt_address models.Mqtt_Addres) error {
-
-	time.Sleep(1 * time.Second)
 
 	//Insertamos los datos en PG
 	go func() {
