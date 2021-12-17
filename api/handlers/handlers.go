@@ -38,7 +38,8 @@ func Manejadores() {
 
 	//V1 FROM V1 TO ...TO ENTITY BUSINESS
 	router_business := version_1.Group("/business")
-	router_business.GET("/", busqueda.BusquedaRouter_pg.GetAllBusiness)
+	router_business.GET("/1", busqueda.BusquedaRouter_pg.GetAllBusiness)
+	router_business.GET("/2", busqueda.BusquedaRouter_pg.GetAllBusiness_2)
 	router_business.GET("/:idbusiness", busqueda.BusquedaRouter_pg.GetInformationOneBusiness)
 
 	//Abrimos el puerto

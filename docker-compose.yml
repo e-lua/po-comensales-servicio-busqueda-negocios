@@ -30,12 +30,34 @@ services:
     networks:
       - backend
     ports:
-      - "90:80"
+      - "34:80"
     environment:
       PGADMIN_DEFAULT_EMAIL: admincd@admincd.com
       PGADMIN_DEFAULT_PASSWORD: admincd
     depends_on:
       - postgres
+  mongo:
+    image: mongo
+    restart: always
+    networks:
+      - backend
+    ports:
+      - "45045:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongodbbusine55_user
+      MONGO_INITDB_ROOT_PASSWORD: mongodb6921
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - "5561:8081"
+    networks:
+      - backend
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: mongobusine55_user
+      ME_CONFIG_MONGODB_ADMINPASSWORD: mo234db4d2s
+      ME_CONFIG_MONGODB_URL: mongodb://mongodbbusine55_user:mongodb6921@mongo:27017/
+      
 networks:
   backend:
 

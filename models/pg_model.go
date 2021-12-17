@@ -90,21 +90,3 @@ type Pg_R_TypeFood struct {
 	Url        string `json:"url"`
 	Available  bool   `json:"available"`
 }
-
-type Json_Postgresql struct {
-	Business  Pg_Business_Json `json:"businessdata"`
-	Payments  []int            `json:"paymentmethods"`
-	TypeFoods []int            `json:"typefoods"`
-	Services  []int            `json:"services"`
-}
-
-type Pg_Business_Json struct {
-	IDBusiness  int     `json:"idbusiness"`
-	ICountry    int     `json:"idcountry"`
-	Banner      string  `json:"urlbanner"`
-	Name        string  `json:"name"`
-	Latitude    float32 `json:"latitude"`
-	Longitude   float32 `json:"longitude"`
-	IsOpen      bool    `json:"isopen"`
-	CreatedDate string  `json:"createddate"`
-}

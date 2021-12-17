@@ -30,9 +30,44 @@ func GetJWT(jwt string) (int, bool, string, int) {
 
 func (br *busquedaRouter_pg) GetAllBusiness(c echo.Context) error {
 
+	var input_location BusinessAll
+
+	//Agregamos los valores enviados a la variable creada
+	err := c.Bind(&input_location)
+	if err != nil {
+		results := Response{Error: true, DataError: "Se debe enviar la longitud y latitud del negocio, revise la estructura o los valores", Data: ""}
+		return c.JSON(400, results)
+	}
+
+	var location models.Location
+	location.GeoJSONType = "Point"
+	location.Coordinates = []float64{input_location.Latitude, input_location.Longitude}
+
 	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := GetAllBusiness_Service()
-	results := ResponseJsonPostgreSQL{Error: boolerror, DataError: dataerror, Data: data}
+	status, boolerror, dataerror, data := GetAllBusiness_Service(location)
+	results := ResponseBusinessAll{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+
+}
+
+func (br *busquedaRouter_pg) GetAllBusiness_2(c echo.Context) error {
+
+	var input_location BusinessAll
+
+	//Agregamos los valores enviados a la variable creada
+	err := c.Bind(&input_location)
+	if err != nil {
+		results := Response{Error: true, DataError: "Se debe enviar la longitud y latitud del negocio, revise la estructura o los valores", Data: ""}
+		return c.JSON(400, results)
+	}
+
+	var location models.Location
+	location.GeoJSONType = "Point"
+	location.Coordinates = []float64{input_location.Latitude, input_location.Longitude}
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := GetAllBusiness_2_Service(location)
+	results := ResponseInterface{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 
 }

@@ -22,8 +22,19 @@ type Response struct {
 	Data      string `json:"data"`
 }
 
-type ResponseJsonPostgreSQL struct {
-	Error     bool                     `json:"error"`
-	DataError string                   `json:"dataError"`
-	Data      []models.Json_Postgresql `json:"data"`
+type ResponseBusinessAll struct {
+	Error     bool                       `json:"error"`
+	DataError string                     `json:"dataError"`
+	Data      []models.Mo_Business_Cards `json:"data"`
+}
+
+type ResponseInterface struct {
+	Error     bool          `json:"error"`
+	DataError string        `json:"dataError"`
+	Data      []interface{} `json:"data"`
+}
+
+type BusinessAll struct {
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
 }
