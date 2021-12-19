@@ -8,12 +8,17 @@ import (
 	typefood_x_business_repository "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/repositories/typefood_x_business"
 )
 
-func GetBusinessCards_SearchedBefore_Service(input_data_idcomensal int) (int, bool, string, interface{}) {
+func GetBusinessCards_SearchedBefore_Service(input_data_idcomensal int) (int, bool, string, BusinessCards_SearchedBefore) {
+
+	var business_cards BusinessCards_SearchedBefore
 
 	//Buscamos si ya he visitado negocios antes
-	all_business_searched, _ := business_repository.Re_Get_Near_Business(input_data_idcomensal)
+	quantity, all_business_searched, _ := business_repository.Pg_Find_Near_Searched(input_data_idcomensal)
 
-	return 200, false, "", all_business_searched
+	business_cards.Quantity = quantity
+	business_cards.Business = all_business_searched
+
+	return 200, false, "", business_cards
 }
 
 func GetBusinessCards_Service(input_search_filters SearchFilters, input_data_idcomensal int) (int, bool, string, []interface{}) {

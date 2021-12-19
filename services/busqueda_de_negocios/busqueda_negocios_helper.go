@@ -29,9 +29,14 @@ type ResponseIBusinessCards struct {
 }
 
 type ResponseIBusinessCards_SearchedBefore struct {
-	Error     bool        `json:"error"`
-	DataError string      `json:"dataError"`
-	Data      interface{} `json:"data"`
+	Error     bool                         `json:"error"`
+	DataError string                       `json:"dataError"`
+	Data      BusinessCards_SearchedBefore `json:"data"`
+}
+
+type BusinessCards_SearchedBefore struct {
+	Quantity int           `json:"quantity"`
+	Business []interface{} `json:"business"`
 }
 
 type ResponseFilterTypeFoods struct {

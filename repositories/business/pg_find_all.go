@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"context"
-	"encoding/json"
 
 	models "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/models"
 	"github.com/jackc/pgx/v4"
@@ -13,7 +12,7 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 	db := models.Conectar_Pg_DB()
 
 	//Instanciamos una query
-	//var idcomensales []int
+	var idcomensales []int
 	var q string
 	var rows pgx.Rows
 	var error_show error
@@ -70,38 +69,18 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 		oListaInterface = append(oListaInterface, interfac)
 	}
 
-	re_insert_searched(idcomensal, oListaInterface)
-
-	//insertFoundBusiness(idcomensales, oListaInterface)
+	insertFoundBusiness(idcomensales, oListaInterface)
 
 	//Si todo esta bien
 	return oListaInterface, nil
 }
 
-/*func insertFoundBusiness(idcomensales []int, business []interface{}) error {
+func insertFoundBusiness(idcomensales []int, business []interface{}) error {
 	db := models.Conectar_Pg_DB()
 
 	query := `INSERT INTO Near(idcomensal,nearbusiness) (select * from unnest($1::int[], $2::int[]))`
 	if _, err := db.Exec(context.Background(), query, idcomensales, business); err != nil {
 		return err
-	}
-
-	return nil
-}*/
-
-func re_insert_searched(idcomensal int, business []interface{}) error {
-
-	var negocios models.Re_SetGetCode
-	negocios.Business_Searched = business
-
-	uJson, err_marshal := json.Marshal(negocios)
-	if err_marshal != nil {
-		return err_marshal
-	}
-
-	_, err_do := models.RedisCN.Get().Do("SET", idcomensal, uJson, "NX")
-	if err_do != nil {
-		return err_do
 	}
 
 	return nil
