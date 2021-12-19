@@ -15,7 +15,7 @@ services:
   redis:
     container_name: redis_db
     restart: always
-    image: "redis:6.0.16"
+    image: "6.2.6-alpine"
     networks:
       - backend
     ports: 
