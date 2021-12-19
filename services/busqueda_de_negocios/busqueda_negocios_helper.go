@@ -22,19 +22,34 @@ type Response struct {
 	Data      string `json:"data"`
 }
 
-type ResponseBusinessAll struct {
-	Error     bool                       `json:"error"`
-	DataError string                     `json:"dataError"`
-	Data      []models.Mo_Business_Cards `json:"data"`
-}
-
-type ResponseInterface struct {
+type ResponseIBusinessCards struct {
 	Error     bool          `json:"error"`
 	DataError string        `json:"dataError"`
 	Data      []interface{} `json:"data"`
 }
 
-type BusinessAll struct {
+type ResponseIBusinessCards_SearchedBefore struct {
+	Error     bool        `json:"error"`
+	DataError string      `json:"dataError"`
+	Data      interface{} `json:"data"`
+}
+
+type ResponseFilterTypeFoods struct {
+	Error     bool                   `json:"error"`
+	DataError string                 `json:"dataError"`
+	Data      []models.Pg_R_TypeFood `json:"data"`
+}
+
+type ResponseFilterPayments struct {
+	Error     bool                        `json:"error"`
+	DataError string                      `json:"dataError"`
+	Data      []models.Pg_R_PaymentMethod `json:"data"`
+}
+
+type SearchFilters struct {
 	Latitude  float64 `json:"latitude"`
 	Longitude float64 `json:"longitude"`
+	Services  []int   `json:"services"`
+	TypeFood  []int   `json:"typefoods"`
+	Payment   []int   `json:"payments"`
 }

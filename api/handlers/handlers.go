@@ -38,9 +38,11 @@ func Manejadores() {
 
 	//V1 FROM V1 TO ...TO ENTITY BUSINESS
 	router_business := version_1.Group("/business")
-	router_business.GET("/1", busqueda.BusquedaRouter_pg.GetAllBusiness)
-	router_business.GET("/2", busqueda.BusquedaRouter_pg.GetAllBusiness_2)
-	router_business.GET("/:idbusiness", busqueda.BusquedaRouter_pg.GetInformationOneBusiness)
+	router_business.GET("/cache", busqueda.BusquedaRouter.GetBusinessCards_SearchedBefore)
+	router_business.GET("/open", busqueda.BusquedaRouter.GetBusinessCards_Open)
+	router_business.GET("/favorite", busqueda.BusquedaRouter.GetBusinessCards_Favorite)
+	router_business.GET("/search", busqueda.BusquedaRouter.GetBusinessCards)
+	router_business.GET("/:idbusiness", busqueda.BusquedaRouter.GetInformationOneBusiness)
 
 	//Abrimos el puerto
 	PORT := os.Getenv("PORT")

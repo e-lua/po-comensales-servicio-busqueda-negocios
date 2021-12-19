@@ -4,13 +4,6 @@ import "time"
 
 /*------------------------BASIC DATA FOR SEARCH------------------------*/
 
-//BUSINESSDATA
-type ResponseBusiness struct {
-	Error     bool        `json:"error"`
-	DataError string      `json:"dataError"`
-	Data      Mo_Business `json:"data"`
-}
-
 type Mo_Business struct {
 	Name           string            `bson:"name" json:"name"`
 	DeliveryRange  string            `bson:"deliveryrange" json:"deliveryrange"`
@@ -25,7 +18,7 @@ type Mo_Business struct {
 }
 
 type Mo_Banner struct {
-	IdBanner string `bson:"id" json:"id"`
+	IdBanner int    `bson:"id" json:"id"`
 	UrlImage string `bson:"url" json:"url"`
 }
 
@@ -76,6 +69,7 @@ type Mo_Contact struct {
 	IDContact   int    `bson:"id" json:"id"`
 	Name        string `bson:"name" json:"name"`
 	DataContact string `bson:"data" json:"data"`
+	IsAvaiable  bool   `bson:"available" json:"available"`
 }
 
 type Mo_BusinessWorker_Mqtt struct {
@@ -104,25 +98,4 @@ type Mo_Registro_FromMqtt struct {
 	Available      bool      `json:"available"`
 	CreatedDate    time.Time `json:"createddate"`
 	IsOpen         bool      `json:"isopen"`
-}
-
-type Mo_Business_Cards struct {
-	IDBusiness     int               `json:"idbusiness"`
-	ICountry       int               `json:"idcountry"`
-	Name           string            `json:"name"`
-	Latitude       float32           `json:"latitude"`
-	Longitude      float32           `json:"longitude"`
-	Location       Location          `json:"location"`
-	Available      bool              `json:"available"`
-	IsOpen         bool              `json:"isopen"`
-	OrdersRejected int               `json:"ordersrejected"`
-	Banner         []Mo_Banner       `bson:"banners" json:"banners"`
-	TypeOfFood     []Mo_TypeFood     `bson:"typeoffood" json:"typeoffood"`
-	Services       []Mo_Service      `bson:"services" json:"services"`
-	PaymentMethods []Mo_PaymenthMeth `bson:"paymentmethods" json:"paymentmethods"`
-}
-
-type Location struct {
-	GeoJSONType string    `json:"type" bson:"type"`
-	Coordinates []float64 `json:"coordinates" bson:"coordinates"`
 }
