@@ -19,13 +19,13 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 
 	//Agregamos un contador para la consulta
 	counter := 0
-	if services != nil {
+	if services[len(services)-1] < 0 {
 		counter = counter + 1
 	}
-	if typefood != nil {
+	if typefood[len(services)-1] < 0 {
 		counter = counter + 10
 	}
-	if payment != nil {
+	if payment[len(services)-1] < 0 {
 		counter = counter + 20
 	}
 
@@ -78,7 +78,7 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 func insertFoundBusiness(idcomensales []int, business []interface{}) error {
 	db := models.Conectar_Pg_DB()
 
-	query := `INSERT INTO Near(idcomensal,nearbusiness) (select * from unnest($1::int[], $2::int[]))`
+	query := `INSERT INTO Near(idcomensal,nearbusiness) (select * from unnest($1::int[], $2::json[]))`
 	if _, err := db.Exec(context.Background(), query, idcomensales, business); err != nil {
 		return err
 	}
