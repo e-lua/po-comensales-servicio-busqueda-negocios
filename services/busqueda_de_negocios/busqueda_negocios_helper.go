@@ -9,11 +9,9 @@ type ResponseJWT struct {
 }
 
 type JWT struct {
-	Phone      int    `json:"phone"`
-	Country    int    `json:"country"`
-	IDComensal int    ` json:"comensal"`
-	Name       string ` json:"name"`
-	LastName   string ` json:"lastName"`
+	Phone      int `json:"phone"`
+	Country    int `json:"country"`
+	IDComensal int ` json:"comensal"`
 }
 
 type Response struct {

@@ -12,20 +12,20 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 	db := models.Conectar_Pg_DB()
 
 	//Instanciamos una query
-	var idcomensales []int
+	//var idcomensales []int
 	var q string
 	var rows pgx.Rows
 	var error_show error
 
 	//Agregamos un contador para la consulta
 	counter := 0
-	if services[len(services)-1] < 0 {
+	if services[0] > 0 {
 		counter = counter + 1
 	}
-	if typefood[len(services)-1] < 0 {
+	if typefood[0] > 0 {
 		counter = counter + 10
 	}
-	if payment[len(services)-1] < 0 {
+	if payment[0] > 0 {
 		counter = counter + 20
 	}
 
@@ -69,13 +69,13 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 		oListaInterface = append(oListaInterface, interfac)
 	}
 
-	insertFoundBusiness(idcomensales, oListaInterface)
+	//insertFoundBusiness(idcomensales, oListaInterface)
 
 	//Si todo esta bien
 	return oListaInterface, nil
 }
 
-func insertFoundBusiness(idcomensales []int, business []interface{}) error {
+/*func insertFoundBusiness(idcomensales []int, business []interface{}) error {
 	db := models.Conectar_Pg_DB()
 
 	query := `INSERT INTO Near(idcomensal,nearbusiness) (select * from unnest($1::int[], $2::json[]))`
@@ -84,4 +84,4 @@ func insertFoundBusiness(idcomensales []int, business []interface{}) error {
 	}
 
 	return nil
-}
+}*/
