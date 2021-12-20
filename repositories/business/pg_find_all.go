@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"context"
-	"encoding/json"
 
 	models "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/models"
 	"github.com/jackc/pgx/v4"
@@ -17,6 +16,7 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 	var q string
 	var rows pgx.Rows
 	var error_show error
+	cantidad := 0
 	service_pg, typefood_pg, payment_pg := []int{}, []int{}, []int{}
 
 	//counter-service
@@ -85,9 +85,13 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 	//Scaneamos l resultado y lo asignamos a la variable instanciada
 	for rows.Next() {
 		var interfac models.Pg_Found_All_Business
+		cantidad = cantidad + 1
 		rows.Scan(&interfac)
-		idcomensales = append(idcomensales, idcomensal)
 		oListaInterface = append(oListaInterface, interfac)
+	}
+
+	for i := 0; i <= cantidad; i++ {
+		idcomensales = append(idcomensales, idcomensal)
 	}
 
 	error_insert := insertFoundBusiness(idcomensales, oListaInterface)
@@ -103,13 +107,8 @@ func insertFoundBusiness(idcomensales []int, business []models.Pg_Found_All_Busi
 
 	db := models.Conectar_Pg_DB()
 
-	uJson, err_marshal := json.Marshal(business)
-	if err_marshal != nil {
-		return err_marshal
-	}
-
-	query := `INSERT INTO Near(idcomensal,neartestbsuiness) (select * from unnest($1::int[], $2::jsonb[]))`
-	if _, err := db.Exec(context.Background(), query, idcomensales, uJson); err != nil {
+	query := `INSERT INTO Near(idcomensal,neartestbsuiness) (select * from unnest($1::int[], $2::json[]))`
+	if _, err := db.Exec(context.Background(), query, idcomensales, business); err != nil {
 		return err
 	}
 

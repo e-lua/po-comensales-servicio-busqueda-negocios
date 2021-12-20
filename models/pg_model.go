@@ -13,7 +13,7 @@ type Pg_R_PaymentMethod struct {
 }
 
 type Pg_Found_All_Business struct {
-	Banner     int            `json:"banner"`
+	Banner     string         `json:"banner"`
 	IDBusiness int            `json:"idbusiness"`
 	IsOpen     bool           `json:"isopen"`
 	Latitude   float32        `json:"latitude"`
