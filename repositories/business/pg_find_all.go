@@ -107,7 +107,7 @@ func insertFoundBusiness(idcomensales []int, business []models.Pg_Found_All_Busi
 
 	db := models.Conectar_Pg_DB()
 
-	query := `INSERT INTO Near(idcomensal,neartestbsuiness) (select * from unnest($1::int[], $2::json[]))`
+	query := `INSERT INTO Near(idcomensal,neartestbsuiness) (select * from unnest($1::int[], $2::bytea[]))`
 	if _, err := db.Exec(context.Background(), query, idcomensales, business); err != nil {
 		return err
 	}
