@@ -7,7 +7,7 @@ import (
 	"github.com/jackc/pgx/v4"
 )
 
-func Pg_Find_All(latitude float64, longitude float64, services []int, typefood []int, payment []int, idcomensal int) ([]interface{}, error) {
+func Pg_Find_All(latitude float64, longitude float64, services []int, typefood []int, payment []int, idcomensal int) ([]models.Pg_Found_All_Business, error) {
 
 	db := models.Conectar_Pg_DB()
 
@@ -75,7 +75,7 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 	}
 
 	//Instanciamos una variable del modelo Pg_TypeFoodXBusiness
-	var oListaInterface []interface{}
+	var oListaInterface []models.Pg_Found_All_Business
 
 	if error_show != nil {
 		return oListaInterface, error_show
@@ -83,7 +83,7 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 
 	//Scaneamos l resultado y lo asignamos a la variable instanciada
 	for rows.Next() {
-		var interfac interface{}
+		var interfac models.Pg_Found_All_Business
 		rows.Scan(&interfac)
 		//idcomensales = append(idcomensales, idcomensal)
 		oListaInterface = append(oListaInterface, interfac)
@@ -98,7 +98,7 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 	return oListaInterface, nil
 }
 
-func insertFoundBusiness(idcomensales []int, business []interface{}) error {
+func insertFoundBusiness(idcomensales []int, business []models.Pg_Found_All_Business) error {
 	db := models.Conectar_Pg_DB()
 
 	query := `INSERT INTO Near(idcomensal,nearbusiness) (select * from unnest($1::int[], $2::json[]))`

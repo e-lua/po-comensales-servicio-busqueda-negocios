@@ -88,6 +88,7 @@ func (br *busquedaRouter) GetBusinessCards(c echo.Context) error {
 
 }
 
+/*
 func (br *busquedaRouter) GetBusinessCards_Open(c echo.Context) error {
 
 	//Obtenemos los datos del auth
@@ -115,8 +116,8 @@ func (br *busquedaRouter) GetBusinessCards_Open(c echo.Context) error {
 	results := ResponseIBusinessCards{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 
-}
-
+}*/
+/*
 func (br *busquedaRouter) GetBusinessCards_Favorite(c echo.Context) error {
 
 	//Obtenemos los datos del auth
@@ -135,7 +136,7 @@ func (br *busquedaRouter) GetBusinessCards_Favorite(c echo.Context) error {
 	results := ResponseIBusinessCards{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 
-}
+}*/
 
 func (br *busquedaRouter) GetInformationOneBusiness(c echo.Context) error {
 

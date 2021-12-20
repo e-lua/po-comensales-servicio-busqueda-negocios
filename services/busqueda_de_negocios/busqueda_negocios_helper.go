@@ -21,9 +21,9 @@ type Response struct {
 }
 
 type ResponseIBusinessCards struct {
-	Error     bool          `json:"error"`
-	DataError string        `json:"dataError"`
-	Data      []interface{} `json:"data"`
+	Error     bool                           `json:"error"`
+	DataError string                         `json:"dataError"`
+	Data      []models.Pg_Found_All_Business `json:"data"`
 }
 
 type ResponseIBusinessCards_SearchedBefore struct {
