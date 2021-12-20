@@ -16,21 +16,25 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 	var q string
 	var rows pgx.Rows
 	var error_show error
+	service_pg, typefood_pg, payment_pg := []int{}, []int{}, []int{}
 
 	//counter-service
 	service_counter := 0
 	for _, s := range services {
 		service_counter = service_counter + s
+		service_pg = append(service_pg, s)
 	}
 	//counter-typefood
 	typefood_counter := 0
 	for _, t := range typefood {
 		typefood_counter = typefood_counter + t
+		typefood_pg = append(typefood_pg, t)
 	}
 	//counter-payment
 	payment_counter := 0
 	for _, p := range payment {
 		payment_counter = payment_counter + p
+		payment_pg = append(payment_pg, p)
 	}
 
 	//Agregamos un contador para la consulta
@@ -49,13 +53,13 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 	switch counter {
 	case 1:
 		q = "SELECT json_build_object('idbusiness',b.idbusiness,'name',b.name,'banner',b.urlbanner,'latitude',b.latitude,'longitude',b.longitude,'isopen',b.isopen,'services',json_agg(DISTINCT bs),'typefoods',json_agg(DISTINCT bt),'paymentmethods',json_agg(DISTINCT bp)) FROM business AS b LEFT JOIN (select bse.idbusiness,bse.idservice from bussinessr_service as bse) AS bs ON bs.idbusiness=b.idbusiness LEFT JOIN ( select bte.idbusiness,bte.idtypefood,t.name from businessr_typefood as bte join r_typefood as t on bte.idtypefood=t.idtypefood order by t.name asc) AS bt ON bt.idbusiness=b.idbusiness LEFT JOIN ( select bpe.idbusiness,bpe.idpayment from business_r_paymenth as bpe) AS bp ON bs.idbusiness=b.idbusiness WHERE earth_distance(ll_to_earth(latitude, longitude), ll_to_earth($1, $2))<10000 AND  bs.idservice IN ($3::int[]) GROUP BY b.idbusiness,b.name,b.urlbanner,b.latitude,b.longitude,b.isopen,earth_distance(ll_to_earth(b.latitude, b.longitude), ll_to_earth($1, $2)) ORDER BY earth_distance(ll_to_earth(b.latitude, b.longitude), ll_to_earth($1, $2)) ASC"
-		rows, error_show = db.Query(context.Background(), q, latitude, longitude, services)
+		rows, error_show = db.Query(context.Background(), q, latitude, longitude, service_pg)
 	case 10:
 		q = "SELECT json_build_object('idbusiness',b.idbusiness,'name',b.name,'banner',b.urlbanner,'latitude',b.latitude,'longitude',b.longitude,'isopen',b.isopen,'services',json_agg(DISTINCT bs),'typefoods',json_agg(DISTINCT bt),'paymentmethods',json_agg(DISTINCT bp)) FROM business AS b LEFT JOIN (select bse.idbusiness,bse.idservice from bussinessr_service as bse) AS bs ON bs.idbusiness=b.idbusiness LEFT JOIN ( select bte.idbusiness,bte.idtypefood,t.name from businessr_typefood as bte join r_typefood as t on bte.idtypefood=t.idtypefood order by t.name asc) AS bt ON bt.idbusiness=b.idbusiness LEFT JOIN ( select bpe.idbusiness,bpe.idpayment from business_r_paymenth as bpe) AS bp ON bs.idbusiness=b.idbusiness WHERE earth_distance(ll_to_earth(latitude, longitude), ll_to_earth($1, $2))<10000 AND  bt.idtypefood IN ($3::int[]) GROUP BY b.idbusiness,b.name,b.urlbanner,b.latitude,b.longitude,b.isopen,earth_distance(ll_to_earth(b.latitude, b.longitude), ll_to_earth($1, $2)) ORDER BY earth_distance(ll_to_earth(b.latitude, b.longitude), ll_to_earth($1, $2)) ASC"
-		rows, error_show = db.Query(context.Background(), q, latitude, longitude, typefood)
+		rows, error_show = db.Query(context.Background(), q, latitude, longitude, typefood_pg)
 	case 20:
 		q = "SELECT json_build_object('idbusiness',b.idbusiness,'name',b.name,'banner',b.urlbanner,'latitude',b.latitude,'longitude',b.longitude,'isopen',b.isopen,'services',json_agg(DISTINCT bs),'typefoods',json_agg(DISTINCT bt),'paymentmethods',json_agg(DISTINCT bp)) FROM business AS b LEFT JOIN (select bse.idbusiness,bse.idservice from bussinessr_service as bse) AS bs ON bs.idbusiness=b.idbusiness LEFT JOIN ( select bte.idbusiness,bte.idtypefood,t.name from businessr_typefood as bte join r_typefood as t on bte.idtypefood=t.idtypefood order by t.name asc) AS bt ON bt.idbusiness=b.idbusiness LEFT JOIN ( select bpe.idbusiness,bpe.idpayment from business_r_paymenth as bpe) AS bp ON bs.idbusiness=b.idbusiness WHERE earth_distance(ll_to_earth(latitude, longitude), ll_to_earth($1, $2))<10000 AND  bp.idpayment IN ($3::int[]) GROUP BY b.idbusiness,b.name,b.urlbanner,b.latitude,b.longitude,b.isopen,earth_distance(ll_to_earth(b.latitude, b.longitude), ll_to_earth($1, $2)) ORDER BY earth_distance(ll_to_earth(b.latitude, b.longitude), ll_to_earth($1, $2)) ASC"
-		rows, error_show = db.Query(context.Background(), q, latitude, longitude, payment)
+		rows, error_show = db.Query(context.Background(), q, latitude, longitude, payment_pg)
 	case 11:
 		q = "SELECT json_build_object('idbusiness',b.idbusiness,'name',b.name,'banner',b.urlbanner,'latitude',b.latitude,'longitude',b.longitude,'isopen',b.isopen,'services',json_agg(DISTINCT bs),'typefoods',json_agg(DISTINCT bt),'paymentmethods',json_agg(DISTINCT bp)) FROM business AS b LEFT JOIN (select bse.idbusiness,bse.idservice from bussinessr_service as bse) AS bs ON bs.idbusiness=b.idbusiness LEFT JOIN ( select bte.idbusiness,bte.idtypefood,t.name from businessr_typefood as bte join r_typefood as t on bte.idtypefood=t.idtypefood order by t.name asc) AS bt ON bt.idbusiness=b.idbusiness LEFT JOIN ( select bpe.idbusiness,bpe.idpayment from business_r_paymenth as bpe) AS bp ON bs.idbusiness=b.idbusiness WHERE earth_distance(ll_to_earth(latitude, longitude), ll_to_earth($1, $2))<10000 AND  bs.idservice IN ($3::int[]) AND bt.idtypefood IN ($4::int[]) GROUP BY b.idbusiness,b.name,b.urlbanner,b.latitude,b.longitude,b.isopen,earth_distance(ll_to_earth(b.latitude, b.longitude), ll_to_earth($1, $2)) ORDER BY earth_distance(ll_to_earth(b.latitude, b.longitude), ll_to_earth($1, $2)) ASC"
 		rows, error_show = db.Query(context.Background(), q, latitude, longitude, services, typefood)
