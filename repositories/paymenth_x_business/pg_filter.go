@@ -9,10 +9,8 @@ import (
 func Pg_Find_Filter(idcountry int) ([]models.Pg_R_PaymentMethod, error) {
 
 	db := models.Conectar_Pg_DB()
-	q := "SELECT rp.idpayment,rp.name,rp.urlphoto FROM r_countryr_payment AS rcp JOIN r_paymentmethod AS rp ON rcp.idpayment=rp.idpayment WHERE rct.idcountry=$1"
+	q := "SELECT rp.idpayment,rp.name,rp.urlphoto FROM r_countryr_payment AS rcp JOIN r_paymentmethod AS rp ON rcp.idpayment=rp.idpayment WHERE rcp.idcountry=$1"
 	rows, error_show := db.Query(context.Background(), q, idcountry)
-
-	//.Scan(&typeF_x_Business.IDTypeFood, &typeF_x_Business.NameFood, &typeF_x_Business.URLPhoto, &typeF_x_Business.Weight)
 
 	//Instanciamos una variable del modelo Pg_TypeFoodXBusiness
 	var oListPg_Paymenth []models.Pg_R_PaymentMethod

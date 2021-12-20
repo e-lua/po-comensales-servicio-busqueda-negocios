@@ -44,6 +44,11 @@ func Manejadores() {
 	router_business.GET("/search", busqueda.BusquedaRouter.GetBusinessCards)
 	router_business.GET("/:idbusiness", busqueda.BusquedaRouter.GetInformationOneBusiness)
 
+	//V1 FROM V1 TO ...TO FILTERS
+	router_filter := version_1.Group("/filter")
+	router_filter.GET("/typefood", busqueda.BusquedaRouter.GetFilterTypeFoods)
+	router_filter.GET("/payment", busqueda.BusquedaRouter.GetFilterPaymentMethods)
+
 	//Abrimos el puerto
 	PORT := os.Getenv("PORT")
 	//Si dice que existe PORT
