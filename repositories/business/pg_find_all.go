@@ -86,7 +86,7 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 	for rows.Next() {
 		var interfac models.Pg_Found_All_Business
 		rows.Scan(&interfac)
-		//idcomensales = append(idcomensales, idcomensal)
+		idcomensales = append(idcomensales, idcomensal)
 		oListaInterface = append(oListaInterface, interfac)
 	}
 
