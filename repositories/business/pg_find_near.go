@@ -9,7 +9,7 @@ import (
 func Pg_Find_Near_Searched(idcomensal int) (int, []models.Pg_Found_All_Business, error) {
 
 	db := models.Conectar_Pg_DB()
-	q := "SELECT nearbusiness FROM Near WHERE idcomensal=$1"
+	q := "SELECT cachebusiness FROM Near WHERE idcomensal=$1"
 	rows, error_show := db.Query(context.Background(), q, idcomensal)
 
 	rowsaffect := 0

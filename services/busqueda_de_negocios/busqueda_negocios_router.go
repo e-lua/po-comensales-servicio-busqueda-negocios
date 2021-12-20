@@ -154,7 +154,7 @@ func (br *busquedaRouter) GetInformationOneBusiness(c echo.Context) error {
 	idbusiness := c.Param("idbusiness")
 
 	//Enviamos los datos al servicio de anfitriones para obtener los datos completos
-	respuesta, _ := http.Get("http://137.184.74.10:3000/business/comensal/bnss/" + idbusiness)
+	respuesta, _ := http.Get("http://137.184.74.10:5800/business/comensal/bnss/" + idbusiness)
 	var get_respuesta models.Mo_Business
 	error_decode_respuesta := json.NewDecoder(respuesta.Body).Decode(&get_respuesta)
 	if error_decode_respuesta != nil {
