@@ -12,20 +12,36 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 	db := models.Conectar_Pg_DB()
 
 	//Instanciamos una query
-	//var idcomensales []int
+	var idcomensales []int
 	var q string
 	var rows pgx.Rows
 	var error_show error
 
+	//counter-service
+	service_counter := 0
+	for _, s := range services {
+		service_counter = service_counter + s
+	}
+	//counter-typefood
+	typefood_counter := 0
+	for _, t := range typefood {
+		typefood_counter = typefood_counter + t
+	}
+	//counter-payment
+	payment_counter := 0
+	for _, p := range payment {
+		payment_counter = payment_counter + p
+	}
+
 	//Agregamos un contador para la consulta
 	counter := 0
-	if services[0] > 0 {
+	if service_counter > 0 {
 		counter = counter + 1
 	}
-	if typefood[0] > 0 {
+	if typefood_counter > 0 {
 		counter = counter + 10
 	}
-	if payment[0] > 0 {
+	if payment_counter > 0 {
 		counter = counter + 20
 	}
 
@@ -46,7 +62,7 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 	case 21:
 		q = "SELECT json_build_object('idbusiness',b.idbusiness,'name',b.name,'banner',b.urlbanner,'latitude',b.latitude,'longitude',b.longitude,'isopen',b.isopen,'services',json_agg(DISTINCT bs),'typefoods',json_agg(DISTINCT bt),'paymentmethods',json_agg(DISTINCT bp)) FROM business AS b LEFT JOIN (select bse.idbusiness,bse.idservice from bussinessr_service as bse) AS bs ON bs.idbusiness=b.idbusiness LEFT JOIN ( select bte.idbusiness,bte.idtypefood,t.name from businessr_typefood as bte join r_typefood as t on bte.idtypefood=t.idtypefood order by t.name asc) AS bt ON bt.idbusiness=b.idbusiness LEFT JOIN ( select bpe.idbusiness,bpe.idpayment from business_r_paymenth as bpe) AS bp ON bs.idbusiness=b.idbusiness WHERE earth_distance(ll_to_earth(latitude, longitude), ll_to_earth($1, $2))<10000 AND  bp.idpayment IN ($3::int[]) AND bs.idservice IN ($4::int[]) GROUP BY b.idbusiness,b.name,b.urlbanner,b.latitude,b.longitude,b.isopen,earth_distance(ll_to_earth(b.latitude, b.longitude), ll_to_earth($1, $2)) ORDER BY earth_distance(ll_to_earth(b.latitude, b.longitude), ll_to_earth($1, $2)) ASC"
 		rows, error_show = db.Query(context.Background(), q, latitude, longitude, payment, services)
-	case 30:
+	case 31:
 		q = "SELECT json_build_object('idbusiness',b.idbusiness,'name',b.name,'banner',b.urlbanner,'latitude',b.latitude,'longitude',b.longitude,'isopen',b.isopen,'services',json_agg(DISTINCT bs),'typefoods',json_agg(DISTINCT bt),'paymentmethods',json_agg(DISTINCT bp)) FROM business AS b LEFT JOIN (select bse.idbusiness,bse.idservice from bussinessr_service as bse) AS bs ON bs.idbusiness=b.idbusiness LEFT JOIN ( select bte.idbusiness,bte.idtypefood,t.name from businessr_typefood as bte join r_typefood as t on bte.idtypefood=t.idtypefood order by t.name asc) AS bt ON bt.idbusiness=b.idbusiness LEFT JOIN ( select bpe.idbusiness,bpe.idpayment from business_r_paymenth as bpe) AS bp ON bs.idbusiness=b.idbusiness WHERE earth_distance(ll_to_earth(latitude, longitude), ll_to_earth($1, $2))<10000 AND  bp.idpayment IN ($3::int[]) AND bt.idtypefood IN ($4::int[]) GROUP BY b.idbusiness,b.name,b.urlbanner,b.latitude,b.longitude,b.isopen,earth_distance(ll_to_earth(b.latitude, b.longitude), ll_to_earth($1, $2)) ORDER BY earth_distance(ll_to_earth(b.latitude, b.longitude), ll_to_earth($1, $2)) ASC"
 		rows, error_show = db.Query(context.Background(), q, latitude, longitude, payment, typefood)
 	default:
@@ -69,13 +85,13 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 		oListaInterface = append(oListaInterface, interfac)
 	}
 
-	//insertFoundBusiness(idcomensales, oListaInterface)
+	insertFoundBusiness(idcomensales, oListaInterface)
 
 	//Si todo esta bien
 	return oListaInterface, nil
 }
 
-/*func insertFoundBusiness(idcomensales []int, business []interface{}) error {
+func insertFoundBusiness(idcomensales []int, business []interface{}) error {
 	db := models.Conectar_Pg_DB()
 
 	query := `INSERT INTO Near(idcomensal,nearbusiness) (select * from unnest($1::int[], $2::json[]))`
@@ -84,4 +100,4 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 	}
 
 	return nil
-}*/
+}
