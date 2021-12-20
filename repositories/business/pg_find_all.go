@@ -90,10 +90,13 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 		oListaInterface = append(oListaInterface, interfac)
 	}
 
-	for i := 0; i <= cantidad; i++ {
+	//Agregamos los id de comensal
+	for i := 0; i < cantidad; i++ {
 		idcomensales = append(idcomensales, idcomensal)
 	}
 
+	//Insertamos los datos en cache
+	delete(idcomensal)
 	error_insert := insertFoundBusiness(idcomensales, oListaInterface)
 	if error_insert != nil {
 		return oListaInterface, error_insert
@@ -103,14 +106,23 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 	return oListaInterface, nil
 }
 
-func insertFoundBusiness(idcomensales []int, business []models.Pg_Found_All_Business) error {
+func delete(idcomensal int) error {
 
 	db := models.Conectar_Pg_DB()
 
-	/*uJson, err_marshal := json.Marshal(business)
-	if err_marshal != nil {
-		return err_marshal
-	}*/
+	//Eliminamos los datos
+	q := `DELETE FROM Near WHERE idcomensal=$1`
+	_, err := db.Exec(context.Background(), q, idcomensal)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func insertFoundBusiness(idcomensales []int, business []models.Pg_Found_All_Business) error {
+
+	db := models.Conectar_Pg_DB()
 
 	query := `INSERT INTO Near(idcomensal,neartestbsuiness) (select * from unnest($1::int[], $2::jsonb[]))`
 	if _, err := db.Exec(context.Background(), query, idcomensales, business); err != nil {

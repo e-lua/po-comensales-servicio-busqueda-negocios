@@ -7,7 +7,7 @@ import (
 	"github.com/jackc/pgx/v4"
 )
 
-func Pg_Find_Favorite(idcomensal int) ([]interface{}, error) {
+func Pg_Find_Favorite(idcomensal int) ([]models.Pg_Found_All_Business, error) {
 
 	db := models.Conectar_Pg_DB()
 
@@ -20,7 +20,7 @@ func Pg_Find_Favorite(idcomensal int) ([]interface{}, error) {
 	rows, error_show = db.Query(context.Background(), q, idcomensal)
 
 	//Instanciamos una variable del modelo Pg_TypeFoodXBusiness
-	var oListaInterface []interface{}
+	var oListaInterface []models.Pg_Found_All_Business
 
 	if error_show != nil {
 		return oListaInterface, error_show
@@ -28,7 +28,7 @@ func Pg_Find_Favorite(idcomensal int) ([]interface{}, error) {
 
 	//Scaneamos l resultado y lo asignamos a la variable instanciada
 	for rows.Next() {
-		var interfac interface{}
+		var interfac models.Pg_Found_All_Business
 		rows.Scan(&interfac)
 		oListaInterface = append(oListaInterface, interfac)
 	}

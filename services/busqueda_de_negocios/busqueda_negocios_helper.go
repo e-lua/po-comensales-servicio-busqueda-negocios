@@ -33,8 +33,8 @@ type ResponseIBusinessCards_SearchedBefore struct {
 }
 
 type BusinessCards_SearchedBefore struct {
-	Quantity int           `json:"quantity"`
-	Business []interface{} `json:"business"`
+	Quantity int                            `json:"quantity"`
+	Business []models.Pg_Found_All_Business `json:"business"`
 }
 
 type ResponseFilterTypeFoods struct {

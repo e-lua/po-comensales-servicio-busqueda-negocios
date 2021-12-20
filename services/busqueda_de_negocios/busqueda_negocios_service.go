@@ -32,7 +32,7 @@ func GetBusinessCards_Service(input_search_filters SearchFilters, input_data_idc
 
 }
 
-func GetBusinessCards_Open_Service(input_search_filters SearchFilters, input_data_idcomensal int) (int, bool, string, []interface{}) {
+func GetBusinessCards_Open_Service(input_search_filters SearchFilters, input_data_idcomensal int) (int, bool, string, []models.Pg_Found_All_Business) {
 
 	//Buscamos los negocios
 	business_cards, error_find_pg := business_repository.Pg_Find_Open(input_search_filters.Latitude, input_search_filters.Longitude)
@@ -43,7 +43,7 @@ func GetBusinessCards_Open_Service(input_search_filters SearchFilters, input_dat
 
 }
 
-func GetBusinessCards_Favorite_Service(input_data_idcomensal int) (int, bool, string, []interface{}) {
+func GetBusinessCards_Favorite_Service(input_data_idcomensal int) (int, bool, string, []models.Pg_Found_All_Business) {
 
 	//Buscamos los negocios
 	business_cards, error_find_pg := business_repository.Pg_Find_Favorite(input_data_idcomensal)
