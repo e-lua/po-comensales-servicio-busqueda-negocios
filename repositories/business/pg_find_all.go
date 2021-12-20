@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"context"
-	"encoding/json"
 
 	models "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/models"
 	"github.com/jackc/pgx/v4"
@@ -108,13 +107,13 @@ func insertFoundBusiness(idcomensales []int, business []models.Pg_Found_All_Busi
 
 	db := models.Conectar_Pg_DB()
 
-	uJson, err_marshal := json.Marshal(business)
+	/*uJson, err_marshal := json.Marshal(business)
 	if err_marshal != nil {
 		return err_marshal
-	}
+	}*/
 
-	query := `INSERT INTO Near(idcomensal,neartestbsuiness) (select * from unnest($1::int[], $2::bytea[]))`
-	if _, err := db.Exec(context.Background(), query, idcomensales, uJson); err != nil {
+	query := `INSERT INTO Near(idcomensal,neartestbsuiness) (select * from unnest($1::int[], $2::jsonb[]))`
+	if _, err := db.Exec(context.Background(), query, idcomensales, business); err != nil {
 		return err
 	}
 
