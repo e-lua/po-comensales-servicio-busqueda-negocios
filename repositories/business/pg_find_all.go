@@ -89,7 +89,10 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 		oListaInterface = append(oListaInterface, interfac)
 	}
 
-	insertFoundBusiness(idcomensales, oListaInterface)
+	error_insert := insertFoundBusiness(idcomensales, oListaInterface)
+	if error_insert != nil {
+		return oListaInterface, error_insert
+	}
 
 	//Si todo esta bien
 	return oListaInterface, nil
