@@ -3,6 +3,7 @@ package busqueda
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	models "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/models"
 	"github.com/labstack/echo/v4"
@@ -117,7 +118,7 @@ func (br *busquedaRouter) GetBusinessCards_Open(c echo.Context) error {
 
 }
 
-func (br *busquedaRouter) GetBusinessCards_Favorite(c echo.Context) error {
+func (br *busquedaRouter) GetFavorites(c echo.Context) error {
 
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idcomensal := GetJWT(c.Request().Header.Get("Authorization"))
@@ -131,7 +132,7 @@ func (br *busquedaRouter) GetBusinessCards_Favorite(c echo.Context) error {
 	}
 
 	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := GetBusinessCards_Favorite_Service(data_idcomensal)
+	status, boolerror, dataerror, data := GetFavorites_Service(data_idcomensal)
 	results := ResponseIBusinessCards{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 
@@ -195,4 +196,30 @@ func (br *busquedaRouter) GetFilterPaymentMethods(c echo.Context) error {
 	status, boolerror, dataerror, data := GetFilterPaymentMethods_Service(data_idcountry)
 	results := ResponseFilterPayments{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
+}
+
+/*----------------------AGREGAR DATOS----------------------*/
+
+func (br *busquedaRouter) AddFavorites(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idcomensal := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := Response{Error: boolerror, DataError: dataerror, Data: ""}
+		return c.JSON(status, results)
+	}
+	if data_idcomensal <= 0 {
+		results := Response{Error: true, DataError: "Token incorrecto", Data: ""}
+		return c.JSON(400, results)
+	}
+
+	//Recibimos el id del negocio
+	idbusiness := c.Param("idbusiness")
+	idbusiness_int, _ := strconv.Atoi(idbusiness)
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := AddFavorites_Service(data_idcomensal, idbusiness_int)
+	results := Response{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+
 }

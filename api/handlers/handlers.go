@@ -40,14 +40,17 @@ func Manejadores() {
 	router_business := version_1.Group("/business")
 	router_business.GET("/cache", busqueda.BusquedaRouter.GetBusinessCards_SearchedBefore)
 	router_business.GET("/open", busqueda.BusquedaRouter.GetBusinessCards_Open)
-	router_business.GET("/favorite", busqueda.BusquedaRouter.GetBusinessCards_Favorite)
 	router_business.GET("/search", busqueda.BusquedaRouter.GetBusinessCards)
-	router_business.GET("/:idbusiness", busqueda.BusquedaRouter.GetInformationOneBusiness)
 
 	//V1 FROM V1 TO ...TO FILTERS
 	router_filter := version_1.Group("/filter")
 	router_filter.GET("/typefood", busqueda.BusquedaRouter.GetFilterTypeFoods)
 	router_filter.GET("/payment", busqueda.BusquedaRouter.GetFilterPaymentMethods)
+
+	//V1 FROM V1 TO ...TO FAVORITES
+	router_comensal := version_1.Group("/comensal")
+	router_comensal.GET("/favorite", busqueda.BusquedaRouter.GetFavorites)
+	router_comensal.POST("/favorite/:idbusiness", busqueda.BusquedaRouter.AddFavorites)
 
 	//Abrimos el puerto
 	PORT := os.Getenv("PORT")

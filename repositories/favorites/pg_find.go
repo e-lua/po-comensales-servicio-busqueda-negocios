@@ -7,7 +7,7 @@ import (
 	"github.com/jackc/pgx/v4"
 )
 
-func Pg_Find_Favorite(idcomensal int) ([]models.Pg_Found_All_Business, error) {
+func Pg_Find(idcomensal int) ([]models.Pg_Found_All_Business, error) {
 
 	db := models.Conectar_Pg_DB()
 
