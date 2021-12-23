@@ -35,10 +35,10 @@ func GetBusinessCards_Service(input_search_filters SearchFilters, input_data_idc
 
 }
 
-func GetBusinessCards_Open_Service(input_search_filters SearchFilters, input_data_idcomensal int) (int, bool, string, []models.Pg_Found_All_Business) {
+func GetBusinessCards_Open_Service(latitude float64, longitude float64, services []int, typefood []int, payment []int) (int, bool, string, []models.Pg_Found_All_Business) {
 
 	//Buscamos los negocios
-	business_cards, error_find_pg := business_repository.Pg_Find_Open(input_search_filters.Latitude, input_search_filters.Longitude, input_search_filters.Services, input_search_filters.TypeFood, input_search_filters.Payment)
+	business_cards, error_find_pg := business_repository.Pg_Find_Open(latitude, longitude, services, typefood, payment)
 	if error_find_pg != nil {
 		return 500, true, "Error interno en el servidor al intentar buscar los negocios cercanos abiertos, detalle: " + error_find_pg.Error(), business_cards
 	}
