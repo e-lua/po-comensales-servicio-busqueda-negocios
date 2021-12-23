@@ -73,17 +73,38 @@ func (br *busquedaRouter) GetBusinessCards(c echo.Context) error {
 		return c.JSON(400, results)
 	}
 
-	var search_filters SearchFilters
+	latitude_string := c.Request().URL.Query().Get("latitude")
+	longitude_string := c.Request().URL.Query().Get("longitude")
+	services_string := c.Request().URL.Query().Get("services")
+	typefoods_string := c.Request().URL.Query().Get("typefoods")
+	payments_string := c.Request().URL.Query().Get("payments")
 
-	//Agregamos los valores enviados a la variable creada
-	err := c.Bind(&search_filters)
-	if err != nil {
-		results := Response{Error: true, DataError: "Se debe enviar la longitud y latitud del negocio, revise la estructura o los valores", Data: ""}
+	//variable de array int
+	var services []int
+	var typefoods []int
+	var payments []int
+
+	//Convertimos los tipos de datos
+	latitude, _ := strconv.ParseFloat(latitude_string, 64)
+	longitude, _ := strconv.ParseFloat(longitude_string, 64)
+	err_services := json.Unmarshal([]byte(services_string), &services)
+	if err_services != nil {
+		results := Response{Error: true, DataError: "Lista de servicios en formato incorrecto, detalles: " + err_services.Error(), Data: ""}
+		return c.JSON(400, results)
+	}
+	err_typefoods := json.Unmarshal([]byte(typefoods_string), &typefoods)
+	if err_typefoods != nil {
+		results := Response{Error: true, DataError: "Lista de servicios en formato incorrecto, detalles: " + err_typefoods.Error(), Data: ""}
+		return c.JSON(400, results)
+	}
+	err_payments := json.Unmarshal([]byte(payments_string), &payments)
+	if err_payments != nil {
+		results := Response{Error: true, DataError: "Lista de servicios en formato incorrecto, detalles: " + err_payments.Error(), Data: ""}
 		return c.JSON(400, results)
 	}
 
 	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := GetBusinessCards_Service(search_filters, data_idcomensal)
+	status, boolerror, dataerror, data := GetBusinessCards_Service(latitude, longitude, services, typefoods, payments, data_idcomensal)
 	results := ResponseIBusinessCards{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 
