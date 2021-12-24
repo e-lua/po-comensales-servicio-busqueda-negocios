@@ -269,7 +269,7 @@ func Consumer_Open() {
 		log.Fatal("Error connection canal " + error_conection.Error())
 	}
 
-	msgs, err_consume := ch.Consume("anfitrion/isopen", "", true, false, false, false, nil)
+	msgs, err_consume := ch.Consume("anfitrion/timezone", "", true, false, false, false, nil)
 	if err_consume != nil {
 		log.Fatal("Error connection cola " + err_consume.Error())
 	}
@@ -278,14 +278,14 @@ func Consumer_Open() {
 
 	go func() {
 		for d := range msgs {
-			var open models.Mqtt_IsOpen
+			var timezone models.Mqtt_TimeZone
 			buf := bytes.NewBuffer(d.Body)
 			decoder := json.NewDecoder(buf)
-			err_consume := decoder.Decode(&open)
+			err_consume := decoder.Decode(&timezone)
 			if err_consume != nil {
 				log.Fatal("Error decoding")
 			}
-			informacion.InformationRouter_pg.UpdateOpen(open)
+			informacion.InformationRouter_pg.UpdateTimeZone(timezone)
 
 			time.Sleep(5 * time.Second)
 		}

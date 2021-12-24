@@ -60,9 +60,9 @@ func (cr *informationRouter_pg) UpdateName(inputserialize_name models.Mqtt_Name)
 	}
 }
 
-func (cr *informationRouter_pg) UpdateOpen(inputserialize_open models.Mqtt_IsOpen) {
+func (cr *informationRouter_pg) UpdateTimeZone(inputserialize_open models.Mqtt_TimeZone) {
 	//Enviamos los datos al servicio
-	error_r := UpdateOpen_Service(inputserialize_open)
+	error_r := UpdateTimeZone_Service(inputserialize_open)
 	if error_r != nil {
 		log.Fatal(error_r)
 	}

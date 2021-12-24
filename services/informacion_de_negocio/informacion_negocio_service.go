@@ -93,11 +93,11 @@ func UpdateName_Service(input_mqtt_name models.Mqtt_Name) error {
 	return nil
 }
 
-func UpdateOpen_Service(input_mqtt_open models.Mqtt_IsOpen) error {
+func UpdateTimeZone_Service(input_mqtt_open models.Mqtt_TimeZone) error {
 
 	//Insertamos los datos en PG
 	go func() {
-		error_add_pg := business_repository.Pg_UpdateIsOpen(input_mqtt_open)
+		error_add_pg := business_repository.Pg_UpdateTimeZone(input_mqtt_open)
 		if error_add_pg != nil {
 			log.Fatal(error_add_pg)
 		}
