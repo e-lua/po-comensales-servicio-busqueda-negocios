@@ -30,8 +30,8 @@ type Mqtt_Addres struct {
 }
 
 type Mqtt_TimeZone struct {
-	IdBusiness int  `json:"idbusiness"`
-	TimeZone   bool `json:"timezone"`
+	IdBusiness int    `json:"idbusiness"`
+	TimeZone   string `json:"timezone"`
 }
 
 type Mqtt_Name struct {

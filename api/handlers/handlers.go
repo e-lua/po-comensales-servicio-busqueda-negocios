@@ -30,7 +30,7 @@ func Manejadores() {
 	go Consumer_Name()
 	go Consumer_Banner()
 	go Consumer_Address()
-	go Consumer_Open()
+	go Consumer_TimeZone()
 
 	e.GET("/", index)
 	//VERSION
@@ -262,7 +262,7 @@ func Consumer_Address() {
 	<-noStopAddress
 }
 
-func Consumer_Open() {
+func Consumer_TimeZone() {
 
 	ch, error_conection := models.MqttCN.Channel()
 	if error_conection != nil {
