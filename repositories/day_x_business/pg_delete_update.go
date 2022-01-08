@@ -27,8 +27,8 @@ func Pg_Delete_Update(input_mqtt_schedule models.Mqtt_Schedule) error {
 	}
 
 	//HORARIO
-	q_schedulerange := `INSERT INTO BusinessSchedule(idschedule,idbusiness,starttime,endtime,isavailable,name) (SELECT * FROM unnest($1::int[],$2::int[],$3::varchar(14)[],$4::varchar(14)[],$5::boolean[],$6::varchar(30)[]));`
-	if _, err_schedule := tx.Exec(context.Background(), q_schedulerange, input_mqtt_schedule.Idschedule_pg, input_mqtt_schedule.Idbusiness_pg, input_mqtt_schedule.Starttime_pg, input_mqtt_schedule.Endtime_pg, input_mqtt_schedule.Isavailable_pg, input_mqtt_schedule.Name_pg); err_schedule != nil {
+	q_schedulerange := `INSERT INTO BusinessSchedule(idschedule,idbusiness,starttime,endtime,isavailable) (SELECT * FROM unnest($1::int[],$2::int[],$3::varchar(14)[],$4::varchar(14)[],$5::boolean[]));`
+	if _, err_schedule := tx.Exec(context.Background(), q_schedulerange, input_mqtt_schedule.Idschedule_pg, input_mqtt_schedule.Idbusiness_pg, input_mqtt_schedule.Starttime_pg, input_mqtt_schedule.Endtime_pg, input_mqtt_schedule.Isavailable_pg); err_schedule != nil {
 		tx.Rollback(context.Background())
 		return err_schedule
 	}
