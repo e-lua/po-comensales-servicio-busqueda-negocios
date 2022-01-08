@@ -31,6 +31,7 @@ func Manejadores() {
 	go Consumer_Banner()
 	go Consumer_Address()
 	go Consumer_TimeZone()
+	go Consumer_Schedule()
 
 	e.GET("/", index)
 	//VERSION
@@ -292,4 +293,36 @@ func Consumer_TimeZone() {
 	}()
 
 	<-noStopOpen
+}
+
+func Consumer_Schedule() {
+
+	ch, error_conection := models.MqttCN.Channel()
+	if error_conection != nil {
+		log.Fatal("Error connection canal " + error_conection.Error())
+	}
+
+	msgs, err_consume := ch.Consume("anfitrion/horario", "", true, false, false, false, nil)
+	if err_consume != nil {
+		log.Fatal("Error connection cola " + err_consume.Error())
+	}
+
+	noStopSchedule := make(chan bool)
+
+	go func() {
+		for d := range msgs {
+			var schedule models.Mqtt_Schedule
+			buf := bytes.NewBuffer(d.Body)
+			decoder := json.NewDecoder(buf)
+			err_consume := decoder.Decode(&schedule)
+			if err_consume != nil {
+				log.Fatal("Error decoding")
+			}
+			informacion.InformationRouter_pg.UpdateSchedule(schedule)
+
+			time.Sleep(5 * time.Second)
+		}
+	}()
+
+	<-noStopSchedule
 }

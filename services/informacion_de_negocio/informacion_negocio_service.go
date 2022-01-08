@@ -10,6 +10,7 @@ import (
 
 	//REPOSITORIES
 	business_repository "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/repositories/business"
+	day_business_repository "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/repositories/day_x_business"
 	payment_business_repository "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/repositories/paymenth_x_business"
 	service_business_repository "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/repositories/service_x_business"
 	typefood_business_repository "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/repositories/typefood_x_business"
@@ -18,20 +19,21 @@ import (
 func UpdatePaymenth_Service(input_mqtt_payment models.Mqtt_PaymentMethod) error {
 
 	//Eliminamos los datos en PG
-	error_delete_pg := payment_business_repository.Pg_Delete(input_mqtt_payment.IdBusiness)
+	error_delete_pg := payment_business_repository.Pg_Delete_Update(input_mqtt_payment)
 	if error_delete_pg != nil {
 		log.Fatal(error_delete_pg)
 	}
 
-	//Insertamos los datos en PG
-	go func() {
-		error_add_pg := payment_business_repository.Pg_Update(input_mqtt_payment)
-		if error_add_pg != nil {
-			log.Fatal(error_add_pg)
-		}
-	}()
+	return nil
+}
 
-	time.Sleep(2 * time.Second)
+func UpdateSchedule_Service(input_mqtt_schedule models.Mqtt_Schedule) error {
+
+	//Eliminamos los datos en PG
+	error_delete_pg := day_business_repository.Pg_Delete_Update(input_mqtt_schedule)
+	if error_delete_pg != nil {
+		log.Fatal(error_delete_pg)
+	}
 
 	return nil
 }
@@ -39,20 +41,10 @@ func UpdatePaymenth_Service(input_mqtt_payment models.Mqtt_PaymentMethod) error 
 func UpdateService_Service(input_mqtt_service models.Mqtt_Service) error {
 
 	//Eliminamos los datos en PG
-	error_delete_pg := service_business_repository.Pg_Delete(input_mqtt_service.IdBusiness)
+	error_delete_pg := service_business_repository.Pg_Delete_Update(input_mqtt_service)
 	if error_delete_pg != nil {
 		log.Fatal(error_delete_pg)
 	}
-
-	//Insertamos los datos en PG
-	go func() {
-		error_add_pg := service_business_repository.Pg_Update(input_mqtt_service)
-		if error_add_pg != nil {
-			log.Fatal(error_add_pg)
-		}
-	}()
-
-	time.Sleep(2 * time.Second)
 
 	return nil
 }
@@ -60,20 +52,10 @@ func UpdateService_Service(input_mqtt_service models.Mqtt_Service) error {
 func UpdateTypeFood_Service(input_mqtt_typefood models.Mqtt_TypeFood) error {
 
 	//Eliminamos los datos en PG
-	error_delete_pg := typefood_business_repository.Pg_Delete(input_mqtt_typefood.IdBusiness)
+	error_delete_pg := typefood_business_repository.Pg_Delete_Update(input_mqtt_typefood)
 	if error_delete_pg != nil {
 		log.Fatal(error_delete_pg)
 	}
-
-	//Insertamos los datos en PG
-	go func() {
-		error_add_pg := typefood_business_repository.Pg_Update(input_mqtt_typefood)
-		if error_add_pg != nil {
-			log.Fatal(error_add_pg)
-		}
-	}()
-
-	time.Sleep(2 * time.Second)
 
 	return nil
 }

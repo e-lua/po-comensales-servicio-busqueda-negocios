@@ -36,6 +36,14 @@ func (cr *informationRouter_pg) UpdatePaymenth(inputserialize_payment models.Mqt
 	}
 }
 
+func (cr *informationRouter_pg) UpdateSchedule(inputserialize_payment models.Mqtt_Schedule) {
+	//Enviamos los datos al servicio
+	error_r := UpdateSchedule_Service(inputserialize_payment)
+	if error_r != nil {
+		log.Fatal(error_r)
+	}
+}
+
 func (cr *informationRouter_pg) UpdateService(inputserialize_service models.Mqtt_Service) {
 	//Enviamos los datos al servicio
 	error_r := UpdateService_Service(inputserialize_service)
