@@ -40,3 +40,48 @@ type TypeFoodB struct {
 	IDTypeFood int    `json:"idtypefood"`
 	Name       string `json:"name"`
 }
+
+/*--------------------------MODELOS A EXPORTAR---------------------------*/
+
+type Pg_R_PaymentMethod_ToBusiness struct {
+	IDPaymenth  int    `json:"id"`
+	Name        string `json:"name"`
+	Url         string `json:"url"`
+	PhoneNumber string `bson:"phonenumber" json:"phonenumber"`
+	HasNumber   bool   `json:"hasnumber"`
+	IsAvailable bool   `json:"available"`
+}
+
+type Pg_R_Schedule_ToBusiness struct {
+	IDSchedule int    `json:"idschedule"`
+	Starttime  string `json:"starttime"`
+	Endtime    string `json:"endtime"`
+	Available  bool   `json:"available"`
+}
+
+type Pg_PaymentMethod_X_Business_ToBusiness struct {
+	IDPaymenth  int
+	IDBusiness  int
+	IsAvailable bool
+}
+
+type Pg_R_Service_ToBusiness struct {
+	IDservice   int     `json:"id"`
+	Name        string  `json:"name"`
+	Pricing     float32 `json:"price"`
+	TypeMoney   int     `json:"typemoney"`
+	IsAvailable bool    `json:"available"`
+}
+
+type Pg_R_TypeFood_ToBusiness struct {
+	IDTypefood  int    `json:"id"`
+	Name        string `json:"name"`
+	Url         string `json:"url"`
+	IsAvailable bool   `json:"available"`
+}
+
+type Pg_BasicData_ToBusiness struct {
+	IsOpen   bool   `json:"isopen"`
+	Name     string `json:"name"`
+	TimeZone string `json:"timezone"`
+}

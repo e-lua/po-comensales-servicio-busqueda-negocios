@@ -10,6 +10,7 @@ import (
 
 	models "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/models"
 	busqueda "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/services/busqueda_de_negocios"
+	exportar "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/services/exportar_datos_negocio"
 	informacion "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/services/informacion_de_negocio"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -24,6 +25,7 @@ func Manejadores() {
 	e.Use(middleware.Recover())
 
 	//Consumidor-MQTT
+	go Consumer_Create()
 	go Consumer_Paymenth()
 	go Consumer_Service()
 	go Consumer_Typefood()
@@ -36,6 +38,14 @@ func Manejadores() {
 	e.GET("/", index)
 	//VERSION
 	version_1 := e.Group("/v1")
+
+	//V1 FROM V1 TO ...TO EXPORTDATA
+	router_export := version_1.Group("/export")
+	router_export.GET("/basicdata", exportar.ExportarRouter.GetBasicData)
+	router_export.GET("/schedule", exportar.ExportarRouter.GetSchedule)
+	router_export.GET("/payment", exportar.ExportarRouter.GetPayment)
+	router_export.GET("/service", exportar.ExportarRouter.GetService)
+	router_export.GET("/typefood", exportar.ExportarRouter.GetTypeFood)
 
 	//V1 FROM V1 TO ...TO ENTITY BUSINESS
 	router_business := version_1.Group("/business")
@@ -319,6 +329,38 @@ func Consumer_Schedule() {
 				log.Fatal("Error decoding")
 			}
 			informacion.InformationRouter_pg.UpdateSchedule(schedule)
+
+			time.Sleep(5 * time.Second)
+		}
+	}()
+
+	<-noStopSchedule
+}
+
+func Consumer_Create() {
+
+	ch, error_conection := models.MqttCN.Channel()
+	if error_conection != nil {
+		log.Fatal("Error connection canal " + error_conection.Error())
+	}
+
+	msgs, err_consume := ch.Consume("anfitrion/horario", "", true, false, false, false, nil)
+	if err_consume != nil {
+		log.Fatal("Error connection cola " + err_consume.Error())
+	}
+
+	noStopSchedule := make(chan bool)
+
+	go func() {
+		for d := range msgs {
+			var createbusiness models.Mqtt_CreateInitialData
+			buf := bytes.NewBuffer(d.Body)
+			decoder := json.NewDecoder(buf)
+			err_consume := decoder.Decode(&createbusiness)
+			if err_consume != nil {
+				log.Fatal("Error decoding")
+			}
+			informacion.InformationRouter_pg.CreateBusiness(createbusiness)
 
 			time.Sleep(5 * time.Second)
 		}

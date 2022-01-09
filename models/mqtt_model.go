@@ -55,3 +55,8 @@ type Mqtt_Banner_Cola struct {
 	IdType                    int    `json:"idtype"`
 	Url                       string `bson:"url" json:"url"`
 }
+
+type Mqtt_CreateInitialData struct {
+	IDBusiness int `json:"idbusiness"`
+	Country    int `json:"country"`
+}

@@ -4,7 +4,6 @@ import (
 
 	//MDOELS
 	"log"
-	"time"
 
 	models "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/models"
 
@@ -15,6 +14,19 @@ import (
 	service_business_repository "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/repositories/service_x_business"
 	typefood_business_repository "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/repositories/typefood_x_business"
 )
+
+func CreateBusiness_Service(input_mqtt_create models.Mqtt_CreateInitialData) error {
+
+	if input_mqtt_create.Country > 2 {
+		//Eliminamos los datos en PG
+		error_delete_pg := business_repository.Pg_Add_IntialiData(input_mqtt_create)
+		if error_delete_pg != nil {
+			log.Fatal(error_delete_pg)
+		}
+	}
+
+	return nil
+}
 
 func UpdatePaymenth_Service(input_mqtt_payment models.Mqtt_PaymentMethod) error {
 
@@ -63,14 +75,11 @@ func UpdateTypeFood_Service(input_mqtt_typefood models.Mqtt_TypeFood) error {
 func UpdateName_Service(input_mqtt_name models.Mqtt_Name) error {
 
 	//Insertamos los datos en PG
-	go func() {
-		error_add_pg := business_repository.Pg_UpdateName(input_mqtt_name)
-		if error_add_pg != nil {
-			log.Fatal(error_add_pg)
-		}
-	}()
 
-	time.Sleep(2 * time.Second)
+	error_add_pg := business_repository.Pg_UpdateName(input_mqtt_name)
+	if error_add_pg != nil {
+		log.Fatal(error_add_pg)
+	}
 
 	return nil
 }
@@ -78,14 +87,11 @@ func UpdateName_Service(input_mqtt_name models.Mqtt_Name) error {
 func UpdateTimeZone_Service(input_mqtt_open models.Mqtt_TimeZone) error {
 
 	//Insertamos los datos en PG
-	go func() {
-		error_add_pg := business_repository.Pg_UpdateTimeZone(input_mqtt_open)
-		if error_add_pg != nil {
-			log.Fatal(error_add_pg)
-		}
-	}()
 
-	time.Sleep(2 * time.Second)
+	error_add_pg := business_repository.Pg_UpdateTimeZone(input_mqtt_open)
+	if error_add_pg != nil {
+		log.Fatal(error_add_pg)
+	}
 
 	return nil
 }
@@ -93,31 +99,23 @@ func UpdateTimeZone_Service(input_mqtt_open models.Mqtt_TimeZone) error {
 func UpdateAddress_Service(input_mqtt_address models.Mqtt_Addres) error {
 
 	//Insertamos los datos en PG
-	go func() {
-		error_add_pg := business_repository.Pg_UpdateAddress(input_mqtt_address)
-		if error_add_pg != nil {
-			log.Fatal(error_add_pg)
-		}
-	}()
 
-	time.Sleep(2 * time.Second)
+	error_add_pg := business_repository.Pg_UpdateAddress(input_mqtt_address)
+	if error_add_pg != nil {
+		log.Fatal(error_add_pg)
+	}
 
 	return nil
 }
 
 func UpdateBanner_Service(input_mqtt_banner models.Mqtt_Banner_Cola) error {
 
-	time.Sleep(1 * time.Second)
-
 	//Insertamos los datos en PG
-	go func() {
-		error_add_pg := business_repository.Pg_UpdateBanner(input_mqtt_banner)
-		if error_add_pg != nil {
-			log.Fatal(error_add_pg)
-		}
-	}()
 
-	time.Sleep(2 * time.Second)
+	error_add_pg := business_repository.Pg_UpdateBanner(input_mqtt_banner)
+	if error_add_pg != nil {
+		log.Fatal(error_add_pg)
+	}
 
 	return nil
 }

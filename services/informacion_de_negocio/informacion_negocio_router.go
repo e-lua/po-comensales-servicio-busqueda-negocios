@@ -26,6 +26,16 @@ func GetJWT(jwt string) (int, bool, string, int) {
 	return 200, false, "", get_respuesta.Data.IDComensal
 }
 
+/*----------------------CRATE BUSINESS - MQTT DATA----------------------*/
+
+func (cr *informationRouter_pg) CreateBusiness(inputserialize_create models.Mqtt_CreateInitialData) {
+	//Enviamos los datos al servicio
+	error_r := CreateBusiness_Service(inputserialize_create)
+	if error_r != nil {
+		log.Fatal(error_r)
+	}
+}
+
 /*----------------------UPDATE MQTT DATA----------------------*/
 
 func (cr *informationRouter_pg) UpdatePaymenth(inputserialize_payment models.Mqtt_PaymentMethod) {
