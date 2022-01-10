@@ -52,6 +52,8 @@ func Manejadores() {
 	router_business.GET("/cache", busqueda.BusquedaRouter.GetBusinessCards_SearchedBefore)
 	router_business.GET("/open", busqueda.BusquedaRouter.GetBusinessCards_Open)
 	router_business.GET("/search", busqueda.BusquedaRouter.GetBusinessCards)
+	//TO GET ADDRESS
+	router_business.GET("/address", informacion.InformationRouter_pg.GetAddress)
 
 	//V1 FROM V1 TO ...TO FILTERS
 	router_filter := version_1.Group("/filter")
