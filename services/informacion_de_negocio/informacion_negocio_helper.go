@@ -36,3 +36,15 @@ type JWT struct {
 	Name       string ` json:"name"`
 	LastName   string ` json:"lastName"`
 }
+
+//ADDRESS
+type ResponseAddress struct {
+	Error     bool      `json:"error"`
+	DataError string    `json:"dataError"`
+	Data      B_Address `json:"data"`
+}
+
+type B_Address struct {
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
+}

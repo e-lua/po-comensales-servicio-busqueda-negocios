@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/models"
+	"github.com/labstack/echo/v4"
 )
 
 var InformationRouter_pg *informationRouter_pg
@@ -100,4 +102,22 @@ func (cr *informationRouter_pg) UpdateAddress(inputserialize_address models.Mqtt
 	if error_r != nil {
 		log.Fatal(error_r)
 	}
+}
+
+func (cr *informationRouter_pg) GetAddress(c echo.Context) error {
+
+	idbusiness_string := c.Request().URL.Query().Get("idbusiness")
+
+	idbusiness_int, _ := strconv.Atoi(idbusiness_string)
+
+	//Validamos los valores enviados
+	if idbusiness_int < 1 {
+		results := Response{Error: true, DataError: "El valor ingresado no cumple con la regla de negocio"}
+		return c.JSON(403, results)
+	}
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := FindAddress_Service(idbusiness_int)
+	results := ResponseAddress{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
 }

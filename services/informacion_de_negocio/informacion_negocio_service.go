@@ -119,3 +119,18 @@ func UpdateBanner_Service(input_mqtt_banner models.Mqtt_Banner_Cola) error {
 
 	return nil
 }
+
+func FindAddress_Service(inputObjectIdBusiness int) (int, bool, string, B_Address) {
+
+	var business_address B_Address
+
+	latitude, longitude, error_address := business_repository.Pg_Find_Address(inputObjectIdBusiness)
+	if error_address != nil {
+		return 500, true, "Error interno en el servidor al intentar buscar la latitud y longitude, detalle: " + error_address.Error(), business_address
+	}
+
+	business_address.Latitude = latitude
+	business_address.Longitude = longitude
+
+	return 200, false, "", business_address
+}
