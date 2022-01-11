@@ -110,6 +110,28 @@ func (br *busquedaRouter) GetBusinessCards(c echo.Context) error {
 
 }
 
+func (br *busquedaRouter) GetBusinessCardsByName(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idcomensal := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := Response{Error: boolerror, DataError: dataerror, Data: ""}
+		return c.JSON(status, results)
+	}
+	if data_idcomensal <= 0 {
+		results := Response{Error: true, DataError: "Token incorrecto", Data: ""}
+		return c.JSON(400, results)
+	}
+
+	//Recibimos el nombre
+	name_string := c.Param("name")
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := GetBusinessCardsByName_Service(name_string)
+	results := ResponseIBusinessCards{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+}
+
 func (br *busquedaRouter) GetBusinessCards_Open(c echo.Context) error {
 
 	//Obtenemos los datos del auth

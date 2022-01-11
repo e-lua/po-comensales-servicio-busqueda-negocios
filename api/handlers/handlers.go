@@ -52,6 +52,7 @@ func Manejadores() {
 	router_business.GET("/cache", busqueda.BusquedaRouter.GetBusinessCards_SearchedBefore)
 	router_business.GET("/open", busqueda.BusquedaRouter.GetBusinessCards_Open)
 	router_business.GET("/search", busqueda.BusquedaRouter.GetBusinessCards)
+	router_business.GET("/search/:name", busqueda.BusquedaRouter.GetBusinessCardsByName)
 
 	//TO GET ADDRESS
 	router_business.GET("/address", informacion.InformationRouter_pg.GetAddress)
@@ -350,7 +351,7 @@ func Consumer_Create() {
 		log.Fatal("Error connection canal " + error_conection.Error())
 	}
 
-	msgs, err_consume := ch.Consume("anfitrion/horario", "", true, false, false, false, nil)
+	msgs, err_consume := ch.Consume("anfitrion/createpg", "", true, false, false, false, nil)
 	if err_consume != nil {
 		log.Fatal("Error connection cola " + err_consume.Error())
 	}

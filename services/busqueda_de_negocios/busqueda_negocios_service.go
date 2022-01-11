@@ -46,6 +46,17 @@ func GetBusinessCards_Open_Service(latitude float64, longitude float64, services
 
 }
 
+func GetBusinessCardsByName_Service(name string) (int, bool, string, []models.Pg_Found_All_Business) {
+
+	//Buscamos los negocios
+	business_cards, error_find_pg := business_repository.Pg_SearchByName(name)
+	if error_find_pg != nil {
+		return 500, true, "Error interno en el servidor al intentar buscar los negocios con el nombre detallado, detalle: " + error_find_pg.Error(), business_cards
+	}
+	return 200, false, "", business_cards
+
+}
+
 func GetFavorites_Service(input_data_idcomensal int) (int, bool, string, []models.Pg_Found_All_Business) {
 
 	//Buscamos los negocios
