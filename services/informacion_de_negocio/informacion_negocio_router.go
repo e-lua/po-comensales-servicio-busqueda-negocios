@@ -1,10 +1,12 @@
 package informacion
 
 import (
+	"bytes"
 	"encoding/json"
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/models"
 	"github.com/labstack/echo/v4"
@@ -120,4 +122,52 @@ func (cr *informationRouter_pg) GetAddress(c echo.Context) error {
 	status, boolerror, dataerror, data := FindAddress_Service(idbusiness_int)
 	results := ResponseAddress{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
+}
+
+func (cr *informationRouter_pg) AddViewInformation(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idcomensal := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
+		return c.JSON(status, results)
+	}
+	if data_idcomensal <= 0 {
+		results := Response{Error: boolerror, DataError: "Token incorrecto", Data: ""}
+		return c.JSON(400, results)
+	}
+
+	//Recibimos el id del negocio
+	idbusiness := c.Param("idbusiness")
+	idbusiness_int, _ := strconv.Atoi(idbusiness)
+
+	//Enviando datos POST
+	var view_information Send_View_Information
+	view_information.IDComensal = data_idcomensal
+	view_information.IDBusiness = idbusiness_int
+	view_information.Date = time.Now()
+
+	url := "http://a-informacion.restoner-api.fun:5800/v1/business/viewinformation"
+
+	//Byte - Buffer
+	var b bytes.Buffer
+	encoder := json.NewEncoder(&b)
+	err_b := encoder.Encode(view_information)
+	if err_b != nil {
+		results := Response{Error: true, DataError: "Error en el servidor interno en el buffer de conversion, detalle: " + err_b.Error(), Data: ""}
+		return c.JSON(500, results)
+	}
+	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(b.Bytes()))
+	req.Header.Set("Content-Type", "application/json")
+	client := &http.Client{}
+	resp, err_d := client.Do(req)
+	if err_d != nil {
+		results := Response{Error: true, DataError: "Error en el servidor interno registrar los datos de la vista, detalle: " + err_d.Error(), Data: ""}
+		return c.JSON(500, results)
+	}
+	defer resp.Body.Close()
+
+	//Enviamos los datos al servicio
+	results := Response{Error: false, DataError: "", Data: "Vista enviada correctamente"}
+	return c.JSON(201, results)
 }

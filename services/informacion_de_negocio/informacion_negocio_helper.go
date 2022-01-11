@@ -1,5 +1,7 @@
 package informacion
 
+import "time"
+
 type Response struct {
 	Error     bool   `json:"error"`
 	DataError string `json:"dataError"`
@@ -47,4 +49,10 @@ type ResponseAddress struct {
 type B_Address struct {
 	Latitude  float64 `json:"latitude"`
 	Longitude float64 `json:"longitude"`
+}
+
+type Send_View_Information struct {
+	IDBusiness int       `bson:"idbusiness" json:"idbusiness"`
+	IDComensal int       `bson:"idcomensal" json:"idcomensal"`
+	Date       time.Time `bson:"date" json:"date"`
 }

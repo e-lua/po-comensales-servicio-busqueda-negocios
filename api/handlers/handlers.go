@@ -52,6 +52,7 @@ func Manejadores() {
 	router_business.GET("/cache", busqueda.BusquedaRouter.GetBusinessCards_SearchedBefore)
 	router_business.GET("/open", busqueda.BusquedaRouter.GetBusinessCards_Open)
 	router_business.GET("/search", busqueda.BusquedaRouter.GetBusinessCards)
+
 	//TO GET ADDRESS
 	router_business.GET("/address", informacion.InformationRouter_pg.GetAddress)
 
@@ -64,6 +65,9 @@ func Manejadores() {
 	router_comensal := version_1.Group("/comensal")
 	router_comensal.GET("/favorite", busqueda.BusquedaRouter.GetFavorites)
 	router_comensal.POST("/favorite/:idbusiness", busqueda.BusquedaRouter.AddFavorites)
+
+	//TO VIEW
+	router_business.GET("/view/:idbusiness", informacion.InformationRouter_pg.AddViewInformation)
 
 	//Abrimos el puerto
 	PORT := os.Getenv("PORT")
