@@ -76,7 +76,7 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 	}
 
 	//Instanciamos una variable del modelo Pg_TypeFoodXBusiness
-	var oListaInterface []models.Pg_Found_All_Business
+	oListaInterface := []models.Pg_Found_All_Business{}
 	oListaBusiness := []int{}
 	oListDistance := []float64{}
 
@@ -86,7 +86,7 @@ func Pg_Find_All(latitude float64, longitude float64, services []int, typefood [
 
 	//Scaneamos l resultado y lo asignamos a la variable instanciada
 	for rows.Next() {
-		var interfac models.Pg_Found_All_Business
+		interfac := models.Pg_Found_All_Business{}
 		cantidad = cantidad + 1
 		rows.Scan(&interfac)
 		oListaBusiness = append(oListaBusiness, interfac.IDBusiness)

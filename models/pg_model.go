@@ -21,7 +21,7 @@ type Pg_Found_All_Business struct {
 	Longitude  float32        `json:"longitude"`
 	Name       string         `json:"name"`
 	Schedule   string         `json:"schedule"`
-	View       string         `json:"view"`
+	View       int            `json:"view"`
 	Services   []ServiceB     `json:"services"`
 	TypeFood   []TypeFoodB    `json:"typefoods"`
 	Payment    []PaymentMethB `json:"paymentmethods"`
