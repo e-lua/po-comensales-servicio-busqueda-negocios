@@ -52,7 +52,7 @@ func Manejadores() {
 	router_business.GET("/cache", busqueda.BusquedaRouter.GetBusinessCards_SearchedBefore)
 	router_business.GET("/open", busqueda.BusquedaRouter.GetBusinessCards_Open)
 	router_business.GET("/search", busqueda.BusquedaRouter.GetBusinessCards)
-	router_business.GET("/search/:name", busqueda.BusquedaRouter.GetBusinessCardsByName)
+	router_business.GET("/search/name", busqueda.BusquedaRouter.GetBusinessCardsByName)
 
 	//TO GET ADDRESS
 	router_business.GET("/address", informacion.InformationRouter_pg.GetAddress)
