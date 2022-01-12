@@ -68,7 +68,7 @@ func Manejadores() {
 	router_comensal.POST("/favorite/:idbusiness", busqueda.BusquedaRouter.AddFavorites)
 
 	//TO VIEW
-	router_business.GET("/view/:idbusiness", informacion.InformationRouter_pg.AddViewInformation)
+	router_business.POST("/view/:idbusiness", informacion.InformationRouter_pg.AddViewInformation)
 
 	//Abrimos el puerto
 	PORT := os.Getenv("PORT")
