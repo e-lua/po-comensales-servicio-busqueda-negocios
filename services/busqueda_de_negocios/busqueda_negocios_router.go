@@ -124,7 +124,8 @@ func (br *busquedaRouter) GetBusinessCardsByName(c echo.Context) error {
 	}
 
 	//Recibimos el nombre
-	name_string := c.Request().URL.Query().Get("name")
+	name := c.Request().URL.Query().Get("name")
+	name_string := "%" + name + "%"
 
 	//Enviamos los datos al servicio
 	status, boolerror, dataerror, data := GetBusinessCardsByName_Service(name_string)
