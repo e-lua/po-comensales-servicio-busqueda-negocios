@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type Mqtt_PaymentMethod struct {
 	IdBusiness     int      `json:"idbusiness"`
 	Idbusiness_pg  []int    `json:"idbusiness_pg"`
@@ -59,4 +61,10 @@ type Mqtt_Banner_Cola struct {
 type Mqtt_CreateInitialData struct {
 	IDBusiness int `json:"idbusiness"`
 	Country    int `json:"country"`
+}
+
+type Mqtt_View_Information struct {
+	IDBusiness int       `bson:"idbusiness" json:"idbusiness"`
+	IDComensal int       `bson:"idcomensal" json:"idcomensal"`
+	Date       time.Time `bson:"date" json:"date"`
 }

@@ -28,6 +28,13 @@ func CreateBusiness_Service(input_mqtt_create models.Mqtt_CreateInitialData) err
 	return nil
 }
 
+func AddViewInformation_Service(idbusiness int, idcomensal int) (int, bool, string, string) {
+
+	business_repository.Pg_ExportView(idbusiness, idcomensal)
+
+	return 200, false, "", "Vista registrada"
+}
+
 func UpdatePaymenth_Service(input_mqtt_payment models.Mqtt_PaymentMethod) error {
 
 	//Eliminamos los datos en PG
