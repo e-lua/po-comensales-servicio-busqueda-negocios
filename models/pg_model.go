@@ -34,7 +34,7 @@ type ServiceB struct {
 	IDBusiness int     `json:"idbusiness"`
 	IDService  int     `json:"idservice"`
 	Price      float32 `json:"pricing"`
-	TypeMoney  int     `json:typemoney`
+	TypeMoney  int     `json:"typemoney"`
 }
 
 type TypeFoodB struct {
