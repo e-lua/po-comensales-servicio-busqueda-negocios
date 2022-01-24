@@ -54,6 +54,11 @@ func Manejadores() {
 	router_business.GET("/search", busqueda.BusquedaRouter.GetBusinessCards)
 	router_business.GET("/search/name", busqueda.BusquedaRouter.GetBusinessCardsByName)
 
+	/*====V1 FROM V1 TO ...TO ENTITY BUSINESS TEST====*/
+	router_business_test := version_1.Group("/business/test")
+	router_business_test.GET("/search", busqueda.BusquedaRouter.GetBusinessCards_Test)
+	router_business_test.GET("/search/name", busqueda.BusquedaRouter.GetBusinessCardsByName_Test)
+
 	//TO GET ADDRESS
 	router_business.GET("/address", informacion.InformationRouter_pg.GetAddress)
 

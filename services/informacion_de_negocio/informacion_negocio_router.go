@@ -127,11 +127,11 @@ func (cr *informationRouter_pg) AddViewInformation(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idcomensal := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
+		results := Response{Error: boolerror, DataError: "000" + dataerror, Data: dataerror}
 		return c.JSON(status, results)
 	}
 	if data_idcomensal <= 0 {
-		results := Response{Error: boolerror, DataError: "Token incorrecto", Data: ""}
+		results := Response{Error: boolerror, DataError: "000" + "Token incorrecto", Data: ""}
 		return c.JSON(400, results)
 	}
 
