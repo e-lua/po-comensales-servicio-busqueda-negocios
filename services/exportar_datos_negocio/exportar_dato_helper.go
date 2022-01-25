@@ -36,3 +36,17 @@ type ResponseTypeFood struct {
 	DataError string                            `json:"dataError"`
 	Data      []models.Pg_R_TypeFood_ToBusiness `json:"data"`
 }
+
+//RECOVER-ALL
+type ResponseRecoverAll struct {
+	Error     bool                 `json:"error"`
+	DataError string               `json:"dataError"`
+	Data      []models.Mo_Business `json:"data"`
+}
+
+//RECOVER-ONE
+type ResponseRecoverOne struct {
+	Error     bool               `json:"error"`
+	DataError string             `json:"dataError"`
+	Data      models.Mo_Business `json:"data"`
+}

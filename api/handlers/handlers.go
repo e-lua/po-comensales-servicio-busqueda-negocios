@@ -47,6 +47,11 @@ func Manejadores() {
 	router_export.GET("/service", exportar.ExportarRouter.GetService)
 	router_export.GET("/typefood", exportar.ExportarRouter.GetTypeFood)
 
+	//V1 FROM V1 TO ...TO RECOVER
+	router_recover := version_1.Group("/recover")
+	router_recover.GET("/all", exportar.ExportarRouter.GetRecoverAll)
+	router_recover.GET("/one", exportar.ExportarRouter.GetRecoverOne)
+
 	//V1 FROM V1 TO ...TO ENTITY BUSINESS
 	router_business := version_1.Group("/business")
 	router_business.GET("/cache", busqueda.BusquedaRouter.GetBusinessCards_SearchedBefore)

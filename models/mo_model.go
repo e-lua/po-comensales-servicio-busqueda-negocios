@@ -5,6 +5,8 @@ import "time"
 /*------------------------BASIC DATA FOR SEARCH------------------------*/
 
 type Mo_Business struct {
+	IdBusiness     int               `bson:"idbusiness" json:"idbusiness"`
+	CreatedDate    int               `bson:"createddate" json:"createddate"`
 	Name           string            `bson:"name" json:"name"`
 	TimeZone       string            `bson:"timezone" json:"timezone"`
 	DeliveryRange  string            `bson:"deliveryrange" json:"deliveryrange"`
@@ -15,6 +17,8 @@ type Mo_Business struct {
 	TypeOfFood     []Mo_TypeFood     `bson:"typeoffood" json:"typeoffood"`
 	Services       []Mo_Service      `bson:"services" json:"services"`
 	PaymentMethods []Mo_PaymenthMeth `bson:"paymentmethods" json:"paymentmethods"`
+	View           int               `bson:"view" json:"view"`
+	Uniquename     string            `bson:"uniquename" json:"uniquename"`
 }
 
 type Mo_Banner struct {

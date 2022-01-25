@@ -10,6 +10,7 @@ import (
 	business_repository "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/repositories/business"
 	day_repository "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/repositories/day_x_business"
 	payment_repository "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/repositories/paymenth_x_business"
+	recover_repository "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/repositories/recover_data_business"
 	service_repository "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/repositories/service_x_business"
 	typefood_repository "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/repositories/typefood_x_business"
 )
@@ -75,4 +76,28 @@ func GetTypeFood_Service(idbusiness int, country int) (int, bool, string, []mode
 	}
 
 	return 200, false, "", typefood
+}
+
+/*========================= RECUPERAR DATOS DEL NEGOCIO =========================*/
+
+func GetRecoverAll_Service() (int, bool, string, []models.Mo_Business) {
+
+	//Buscamos todos los negocios a recuperar datos
+	all_business, error_find := recover_repository.Pg_Recover_All()
+	if error_find != nil {
+		return 500, true, "Error interno en el servidor al intentar buscar el horario del negocio, detalle: " + error_find.Error(), all_business
+	}
+
+	return 200, false, "", all_business
+}
+
+func GetRecoverOne_Service(idbusiness int) (int, bool, string, models.Mo_Business) {
+
+	//Buscamos un negocio a recuperar datos
+	one_business, error_find := recover_repository.Pg_Recover_One(idbusiness)
+	if error_find != nil {
+		return 500, true, "Error interno en el servidor al intentar buscar el horario del negocio, detalle: " + error_find.Error(), one_business
+	}
+
+	return 200, false, "", one_business
 }

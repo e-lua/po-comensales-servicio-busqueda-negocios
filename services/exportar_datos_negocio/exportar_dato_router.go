@@ -81,3 +81,26 @@ func (er *exportarRouter) GetTypeFood(c echo.Context) error {
 	return c.JSON(status, results)
 
 }
+
+/*========================= RECUPERAR DATOS DEL NEGOCIO =========================*/
+
+func (er *exportarRouter) GetRecoverAll(c echo.Context) error {
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := GetRecoverAll_Service()
+	results := ResponseRecoverAll{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+
+}
+
+func (er *exportarRouter) GetRecoverOne(c echo.Context) error {
+
+	idbusiness_string := c.Request().URL.Query().Get("idbusiness")
+	idbusiness, _ := strconv.Atoi(idbusiness_string)
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := GetRecoverOne_Service(idbusiness)
+	results := ResponseRecoverOne{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+
+}
