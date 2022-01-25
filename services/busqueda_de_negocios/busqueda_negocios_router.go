@@ -289,6 +289,15 @@ func (br *busquedaRouter) AddFavorites(c echo.Context) error {
 
 }
 
+func (br *busquedaRouter) GetUniqueNames(c echo.Context) error {
+
+	uniquename_string := c.Request().URL.Query().Get("uniquename")
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := GetUniqueNames_Service(uniquename_string)
+	results := Response_Uniquename{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+}
+
 /*=============================== INICIO TEST===============================*/
 
 func (br *busquedaRouter) GetBusinessCards_Test(c echo.Context) error {

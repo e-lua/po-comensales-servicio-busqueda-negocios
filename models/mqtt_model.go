@@ -51,6 +51,11 @@ type Mqtt_Name struct {
 	Name       string `json:"name"`
 }
 
+type Mqtt_Uniquename struct {
+	IdBusiness int    `json:"idbusiness"`
+	Uniquename string `json:"uniquename"`
+}
+
 type Mqtt_Banner_Cola struct {
 	IdBusiness                int    `bson:"idbusiness" json:"idbusiness"`
 	IdBanner_Category_Element int    `json:"idbCE"`

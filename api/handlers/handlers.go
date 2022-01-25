@@ -34,6 +34,7 @@ func Manejadores() {
 	go Consumer_Address()
 	go Consumer_TimeZone()
 	go Consumer_Schedule()
+	go Consumer_Uniquename()
 
 	e.GET("/", index)
 	//VERSION
@@ -58,6 +59,7 @@ func Manejadores() {
 	router_business.GET("/open", busqueda.BusquedaRouter.GetBusinessCards_Open)
 	router_business.GET("/search", busqueda.BusquedaRouter.GetBusinessCards)
 	router_business.GET("/search/name", busqueda.BusquedaRouter.GetBusinessCardsByName)
+	router_business.GET("/uniquenames", busqueda.BusquedaRouter.GetUniqueNames)
 
 	/*====V1 FROM V1 TO ...TO ENTITY BUSINESS TEST====*/
 	router_business_test := version_1.Group("/business/test")
@@ -384,4 +386,36 @@ func Consumer_Create() {
 	}()
 
 	<-noStopSchedule
+}
+
+func Consumer_Uniquename() {
+
+	ch, error_conection := models.MqttCN.Channel()
+	if error_conection != nil {
+		log.Fatal("Error connection canal " + error_conection.Error())
+	}
+
+	msgs, err_consume := ch.Consume("anfitrion/uniquename", "", true, false, false, false, nil)
+	if err_consume != nil {
+		log.Fatal("Error connection cola " + err_consume.Error())
+	}
+
+	noStopUniqueName := make(chan bool)
+
+	go func() {
+		for d := range msgs {
+			var uniquename models.Mqtt_Uniquename
+			buf := bytes.NewBuffer(d.Body)
+			decoder := json.NewDecoder(buf)
+			err_consume := decoder.Decode(&uniquename)
+			if err_consume != nil {
+				log.Fatal("Error decoding")
+			}
+			informacion.InformationRouter_pg.UpdateUniqueName(uniquename)
+
+			time.Sleep(5 * time.Second)
+		}
+	}()
+
+	<-noStopUniqueName
 }

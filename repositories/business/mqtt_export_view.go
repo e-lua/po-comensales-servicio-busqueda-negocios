@@ -10,7 +10,7 @@ import (
 	"github.com/streadway/amqp"
 )
 
-func Pg_ExportView(idbusiness int, idcomensal int) error {
+func Mqtt_ExportView(idbusiness int, idcomensal int) error {
 
 	//Serializamos el MQTT
 	var serialize_view models.Mqtt_View_Information

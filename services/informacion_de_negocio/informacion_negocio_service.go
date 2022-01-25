@@ -30,7 +30,7 @@ func CreateBusiness_Service(input_mqtt_create models.Mqtt_CreateInitialData) err
 
 func AddViewInformation_Service(idbusiness int, idcomensal int) (int, bool, string, string) {
 
-	business_repository.Pg_ExportView(idbusiness, idcomensal)
+	business_repository.Mqtt_ExportView(idbusiness, idcomensal)
 
 	return 200, false, "", "Vista registrada"
 }
@@ -84,6 +84,17 @@ func UpdateName_Service(input_mqtt_name models.Mqtt_Name) error {
 	//Insertamos los datos en PG
 
 	error_add_pg := business_repository.Pg_UpdateName(input_mqtt_name)
+	if error_add_pg != nil {
+		log.Fatal(error_add_pg)
+	}
+
+	return nil
+}
+
+func UpdateUniqueName_Service(input_mqtt_uniquename models.Mqtt_Uniquename) error {
+
+	//Insertamos los datos en PG
+	error_add_pg := business_repository.Pg_UpdateUniqueName(input_mqtt_uniquename)
 	if error_add_pg != nil {
 		log.Fatal(error_add_pg)
 	}

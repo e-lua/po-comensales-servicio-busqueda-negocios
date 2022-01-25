@@ -80,6 +80,14 @@ func (cr *informationRouter_pg) UpdateName(inputserialize_name models.Mqtt_Name)
 	}
 }
 
+func (cr *informationRouter_pg) UpdateUniqueName(inputserialize_uniquename models.Mqtt_Uniquename) {
+	//Enviamos los datos al servicio
+	error_r := UpdateUniqueName_Service(inputserialize_uniquename)
+	if error_r != nil {
+		log.Fatal(error_r)
+	}
+}
+
 func (cr *informationRouter_pg) UpdateTimeZone(inputserialize_open models.Mqtt_TimeZone) {
 	//Enviamos los datos al servicio
 	error_r := UpdateTimeZone_Service(inputserialize_open)
