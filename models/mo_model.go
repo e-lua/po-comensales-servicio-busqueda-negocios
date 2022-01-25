@@ -6,7 +6,7 @@ import "time"
 
 type Mo_Business struct {
 	IdBusiness     int               `bson:"idbusiness" json:"idbusiness"`
-	CreatedDate    int               `bson:"createddate" json:"createddate"`
+	CreatedDate    time.Time         `bson:"createddate" json:"createddate"`
 	Name           string            `bson:"name" json:"name"`
 	TimeZone       string            `bson:"timezone" json:"timezone"`
 	DeliveryRange  string            `bson:"deliveryrange" json:"deliveryrange"`
