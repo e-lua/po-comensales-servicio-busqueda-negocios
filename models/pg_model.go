@@ -13,21 +13,28 @@ type Pg_R_PaymentMethod struct {
 }
 
 type Pg_Found_All_Business struct {
-	Distance   float64       `json:"distance"`
-	Banner     string        `json:"banner"`
-	IDBusiness int           `json:"idbusiness"`
-	IsOpen     bool          `json:"isopen"`
-	Latitude   float32       `json:"latitude"`
-	Longitude  float32       `json:"longitude"`
-	Name       string        `json:"name"`
-	Schedule   string        `json:"schedule"`
-	View       int           `json:"view"`
-	Services   []interface{} `json:"services"`
+	Distance   float64    `json:"distance"`
+	Banner     string     `json:"banner"`
+	IDBusiness int        `json:"idbusiness"`
+	IsOpen     bool       `json:"isopen"`
+	Latitude   float32    `json:"latitude"`
+	Longitude  float32    `json:"longitude"`
+	Name       string     `json:"name"`
+	Schedule   string     `json:"schedule"`
+	View       int        `json:"view"`
+	Services   []ServiceB `json:"services"`
 }
 
 type PaymentMethB struct {
 	IDBusiness int `json:"idbusiness"`
 	IDPayment  int `json:"idpayment"`
+}
+
+type ServiceB struct {
+	IDBusiness int     `json:"idbusiness"`
+	IDService  int     `json:"idservice"`
+	Price      float32 `json:"pricing"`
+	TypeMoney  int     `json:"typemoney"`
 }
 
 type TypeFoodB struct {
