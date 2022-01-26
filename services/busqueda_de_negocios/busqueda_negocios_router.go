@@ -124,15 +124,15 @@ func (br *busquedaRouter) GetBusinessCardsByName(c echo.Context) error {
 	}
 
 	//Variable para indicar el tipo de busqueda
-	var tipo int
+	tipo := 0
 
 	//Recibimos el nombre
 	name := c.Request().URL.Query().Get("name")
 
 	if name[0] == 64 {
-		tipo = 1
+		tipo = tipo + 1
 	} else {
-		tipo = 2
+		tipo = tipo + 2
 	}
 
 	name_string := "%" + name + "%"
