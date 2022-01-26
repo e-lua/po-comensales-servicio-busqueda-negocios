@@ -123,22 +123,12 @@ func (br *busquedaRouter) GetBusinessCardsByName(c echo.Context) error {
 		return c.JSON(400, results)
 	}
 
-	//Variable para indicar el tipo de busqueda
-	tipo := 0
-
 	//Recibimos el nombre
 	name := c.Request().URL.Query().Get("name")
-
-	if name[0] == 64 {
-		tipo = tipo + 1
-	} else {
-		tipo = tipo + 2
-	}
-
 	name_string := "%" + name + "%"
 
 	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := GetBusinessCardsByName_Service(name_string, tipo)
+	status, boolerror, dataerror, data := GetBusinessCardsByName_Service(name_string)
 	results := ResponseIBusinessCards{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 }

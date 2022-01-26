@@ -46,22 +46,17 @@ func GetBusinessCards_Open_Service(latitude float64, longitude float64, services
 
 }
 
-func GetBusinessCardsByName_Service(name string, tipo int) (int, bool, string, []models.Pg_Found_All_Business) {
+func GetBusinessCardsByName_Service(name string) (int, bool, string, []models.Pg_Found_All_Business) {
 
-	var business_cards []models.Pg_Found_All_Business
-	var error_find_pg error
+	//Buscamos los negocios sin @
+	business_cards, rows_affectt, error_find_pg := business_repository.Pg_SearchByName(name)
+	if error_find_pg != nil {
+		return 500, true, "Error interno en el servidor al intentar buscar los negocios con el nombre detallado, detalle: " + error_find_pg.Error(), business_cards
+	}
 
-	if tipo == 1 {
+	if rows_affectt < 1 {
 		//Buscamos los negocios con @
-		business_cards, error_find_pg = business_repository.Pg_SearchByUniqueName(name)
-		if error_find_pg != nil {
-			return 500, true, "Error interno en el servidor al intentar buscar los negocios con el nombre detallado, detalle: " + error_find_pg.Error(), business_cards
-		}
-
-	} else {
-
-		//Buscamos los negocios sin @
-		business_cards, error_find_pg = business_repository.Pg_SearchByName(name)
+		business_cards, error_find_pg := business_repository.Pg_SearchByUniqueName(name)
 		if error_find_pg != nil {
 			return 500, true, "Error interno en el servidor al intentar buscar los negocios con el nombre detallado, detalle: " + error_find_pg.Error(), business_cards
 		}
@@ -143,7 +138,7 @@ func GetBusinessCards_Test_Service(latitude float64, longitude float64, services
 func GetBusinessCardsByName_Test_Service(name string) (int, bool, string, []models.Pg_Found_All_Business) {
 
 	//Buscamos los negocios
-	business_cards, error_find_pg := business_repository.Pg_SearchByName_Test(name)
+	business_cards, _, error_find_pg := business_repository.Pg_SearchByName_Test(name)
 	if error_find_pg != nil {
 		return 500, true, "Error interno en el servidor al intentar buscar los negocios con el nombre detallado, detalle: " + error_find_pg.Error(), business_cards
 	}
