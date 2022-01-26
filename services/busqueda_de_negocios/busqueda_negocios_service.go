@@ -48,22 +48,31 @@ func GetBusinessCards_Open_Service(latitude float64, longitude float64, services
 
 func GetBusinessCardsByName_Service(name string) (int, bool, string, []models.Pg_Found_All_Business) {
 
+	var business_cards []models.Pg_Found_All_Business
+	var rows_affectt int
+	var error_find_pg error
+
+	var business_cards_2 []models.Pg_Found_All_Business
+	var error_find_pg_2 error
+
 	//Buscamos los negocios sin @
-	business_cards, rows_affectt, error_find_pg := business_repository.Pg_SearchByName(name)
+	business_cards, rows_affectt, error_find_pg = business_repository.Pg_SearchByName(name)
 	if error_find_pg != nil {
 		return 500, true, "Error interno en el servidor al intentar buscar los negocios con el nombre detallado, detalle: " + error_find_pg.Error(), business_cards
 	}
 
 	if rows_affectt < 1 {
 		//Buscamos los negocios con @
-		business_cards, error_find_pg := business_repository.Pg_SearchByUniqueName(name)
-		if error_find_pg != nil {
+		business_cards_2, error_find_pg_2 = business_repository.Pg_SearchByUniqueName(name)
+		if error_find_pg_2 != nil {
 			return 500, true, "Error interno en el servidor al intentar buscar los negocios con el nombre detallado, detalle: " + error_find_pg.Error(), business_cards
 		}
+
+		return 200, false, "", business_cards_2
+
+	} else {
+		return 200, false, "", business_cards
 	}
-
-	return 200, false, "", business_cards
-
 }
 
 func GetFavorites_Service(input_data_idcomensal int) (int, bool, string, []models.Pg_Found_All_Business) {
