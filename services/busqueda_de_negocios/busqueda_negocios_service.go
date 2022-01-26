@@ -46,13 +46,21 @@ func GetBusinessCards_Open_Service(latitude float64, longitude float64, services
 
 }
 
-func GetBusinessCardsByName_Service(name string) (int, bool, string, []models.Pg_Found_All_Business) {
+func GetBusinessCardsByName_Service(name string, tipo int) (int, bool, string, []models.Pg_Found_All_Business) {
 
-	//Buscamos los negocios
+	if tipo == 1 {
+		//Buscamos los negocios con @
+		business_cards, error_find_pg := business_repository.Pg_SearchByUniqueName(name)
+		if error_find_pg != nil {
+			return 500, true, "Error interno en el servidor al intentar buscar los negocios con el nombre detallado, detalle: " + error_find_pg.Error(), business_cards
+		}
+	}
+	//Buscamos los negocios sin @
 	business_cards, error_find_pg := business_repository.Pg_SearchByName(name)
 	if error_find_pg != nil {
 		return 500, true, "Error interno en el servidor al intentar buscar los negocios con el nombre detallado, detalle: " + error_find_pg.Error(), business_cards
 	}
+
 	return 200, false, "", business_cards
 
 }
