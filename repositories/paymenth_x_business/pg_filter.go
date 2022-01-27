@@ -2,15 +2,21 @@ package repositories
 
 import (
 	"context"
+	"time"
 
 	models "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/models"
 )
 
 func Pg_Find_Filter(idcountry int) ([]models.Pg_R_PaymentMethod, error) {
 
+	//Tiempo limite al contexto
+	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
+	//defer cancelara el contexto
+	defer cancel()
+
 	db := models.Conectar_Pg_DB()
 	q := "SELECT rp.idpayment,rp.name,rp.urlphoto FROM r_countryr_payment AS rcp JOIN r_paymentmethod AS rp ON rcp.idpayment=rp.idpayment WHERE rcp.idcountry=$1"
-	rows, error_show := db.Query(context.Background(), q, idcountry)
+	rows, error_show := db.Query(ctx, q, idcountry)
 
 	//Instanciamos una variable del modelo Pg_TypeFoodXBusiness
 	var oListPg_Paymenth []models.Pg_R_PaymentMethod

@@ -2,15 +2,21 @@ package repositories
 
 import (
 	"context"
+	"time"
 
 	models "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/models"
 )
 
 func Pg_Find(idbusiness int, idcountry int) ([]models.Pg_R_TypeFood_ToBusiness, error) {
 
+	//Tiempo limite al contexto
+	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
+	//defer cancelara el contexto
+	defer cancel()
+
 	db := models.Conectar_Pg_DB()
 	q := "SELECT r.idtypefood,r.name,r.urlphoto,bt.isavailable from r_typefood AS r LEFT JOIN businessr_typefood AS bt ON r.idtypefood=bt.idtypefood WHERE bt.idbusiness=$1 UNION SELECT r.idtypefood,r.name,r.urlphoto,false from r_typefood AS r LEFT JOIN businessr_typefood AS bt ON r.idtypefood=bt.idtypefood LEFT JOIN r_countryr_typefood AS rr ON rr.idtypefood=r.idtypefood WHERE r.idtypefood NOT IN (SELECT bt.idtypefood FROM businessr_typefood AS bt WHERE bt.idbusiness=$1) AND rr.idcountry=$2"
-	rows, error_show := db.Query(context.Background(), q, idbusiness, idcountry)
+	rows, error_show := db.Query(ctx, q, idbusiness, idcountry)
 
 	//Instanciamos una variable del modelo Pg_TypeFoodXBusiness
 	var oListPg_TypeFood []models.Pg_R_TypeFood_ToBusiness

@@ -3,6 +3,7 @@ package models
 import (
 	"context"
 	"sync"
+	"time"
 
 	"github.com/jackc/pgx/v4/pgxpool"
 )
@@ -16,10 +17,15 @@ var (
 
 func Conectar_Pg_DB() *pgxpool.Pool {
 
+	//Tiempo limite al contexto
+	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
+	//defer cancelara el contexto
+	defer cancel()
+
 	once_pg.Do(func() {
 		urlString := "postgres://postgresxd:postgresxd@postgres:5432/postgresxd?pool_max_conns=50"
 		config, _ := pgxpool.ParseConfig(urlString)
-		p_pg, _ = pgxpool.ConnectConfig(context.Background(), config)
+		p_pg, _ = pgxpool.ConnectConfig(ctx, config)
 	})
 	return p_pg
 }

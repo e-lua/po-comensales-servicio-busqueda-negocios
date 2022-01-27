@@ -2,15 +2,21 @@ package repositories
 
 import (
 	"context"
+	"time"
 
 	models "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/models"
 )
 
 func Pg_Find(idbusiness int) ([]models.Pg_R_Schedule_ToBusiness, error) {
 
+	//Tiempo limite al contexto
+	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
+	//defer cancelara el contexto
+	defer cancel()
+
 	db := models.Conectar_Pg_DB()
 	q := "SELECT r.idschedule,bsch.starttime,bsch.endtime,bsch.isavailable FROM schedule AS r LEFT JOIN businessschedule AS bsch ON bsch.idschedule=r.idschedule WHERE bsch.idbusiness=$1 UNION SELECT r.idschedule,'0','0',false FROM schedule AS r LEFT JOIN businessschedule AS bsch ON bsch.idschedule=r.idschedule WHERE r.idschedule NOT IN (SELECT bsch.idschedule FROM businessschedule AS bsch WHERE bsch.idbusiness=$1)"
-	rows, error_show := db.Query(context.Background(), q, idbusiness)
+	rows, error_show := db.Query(ctx, q, idbusiness)
 
 	//Instanciamos una variable del modelo Pg_TypeFoodXBusiness
 	var oListPg_Schedule []models.Pg_R_Schedule_ToBusiness
