@@ -18,7 +18,7 @@ func Pg_Add_IntialiData(anfitrionpg models.Mqtt_CreateInitialData) error {
 
 	//Agregamos el Business
 
-	_, err_add_business := db.Exec(ctx, "INSERT INTO Business(idbusiness,idcountry,createdDate,isopen) VALUES ($1,$2,$3,$4)", anfitrionpg.IDBusiness, anfitrionpg.Country, time.Now(), false)
+	_, err_add_business := db.Exec(ctx, "INSERT INTO Business(idbusiness,idcountry,createdDate) VALUES ($1,$2,$3)", anfitrionpg.IDBusiness, anfitrionpg.Country, time.Now())
 	if err_add_business != nil {
 		return err_add_business
 	}
