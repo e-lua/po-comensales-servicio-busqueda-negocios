@@ -17,12 +17,10 @@ import (
 
 func CreateBusiness_Service(input_mqtt_create models.Mqtt_CreateInitialData) error {
 
-	if input_mqtt_create.Country < 2 {
-		//Eliminamos los datos en PG
-		error_delete_pg := business_repository.Pg_Add_IntialiData(input_mqtt_create)
-		if error_delete_pg != nil {
-			log.Fatal(error_delete_pg)
-		}
+	//Eliminamos los datos en PG
+	error_delete_pg := business_repository.Pg_Add_IntialiData(input_mqtt_create)
+	if error_delete_pg != nil {
+		log.Fatal(error_delete_pg)
 	}
 
 	return nil
