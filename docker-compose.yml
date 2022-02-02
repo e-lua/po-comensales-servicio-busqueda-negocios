@@ -30,7 +30,7 @@ services:
     networks:
       - backend
     ports:
-      - "34:80"
+      - "90:80"
     environment:
       PGADMIN_DEFAULT_EMAIL: admincd@admincd.com
       PGADMIN_DEFAULT_PASSWORD: asd2134DAfas34c2q35G35gsdf
