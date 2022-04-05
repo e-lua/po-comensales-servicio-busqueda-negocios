@@ -1,6 +1,7 @@
 package exportar
 
 import (
+	"log"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
@@ -103,4 +104,13 @@ func (er *exportarRouter) GetRecoverOne(c echo.Context) error {
 	results := ResponseRecoverOne{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 
+}
+
+/*----------------------OBTENER TODOS LOS DATOS NEGOCIOS PARA NOTIFICARLOS----------------------*/
+
+func (er *exportarRouter) SearchToNotify() {
+
+	//Enviamos los datos al servicio
+	status, _, dataerror, _ := SearchToNotify_Service()
+	log.Println(strconv.Itoa(status) + " " + dataerror)
 }

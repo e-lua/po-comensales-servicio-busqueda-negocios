@@ -35,6 +35,8 @@ func Manejadores() {
 	go Consumer_TimeZone()
 	go Consumer_Schedule()
 	go Consumer_Uniquename()
+	//Notify
+	go Notify_DataToComplete()
 
 	e.GET("/", index)
 	//VERSION
@@ -418,4 +420,11 @@ func Consumer_Uniquename() {
 	}()
 
 	<-noStopUniqueName
+}
+
+func Notify_DataToComplete() {
+	for {
+		time.Sleep(24 * time.Hour)
+		exportar.ExportarRouter.SearchToNotify()
+	}
 }
