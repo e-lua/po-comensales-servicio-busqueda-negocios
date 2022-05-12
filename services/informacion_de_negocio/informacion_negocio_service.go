@@ -89,6 +89,18 @@ func UpdateName_Service(input_mqtt_name models.Mqtt_Name) error {
 	return nil
 }
 
+func UpdateLegalIdentity_Service(inputserialize_legalidentity models.Mqtt_LegalIdentity) error {
+
+	//Insertamos los datos en PG
+
+	error_add_pg := business_repository.Pg_UpdateLegalIdentity(inputserialize_legalidentity)
+	if error_add_pg != nil {
+		log.Fatal(error_add_pg)
+	}
+
+	return nil
+}
+
 func UpdateUniqueName_Service(input_mqtt_uniquename models.Mqtt_Uniquename) error {
 
 	//Insertamos los datos en PG

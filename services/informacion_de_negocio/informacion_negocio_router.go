@@ -80,6 +80,14 @@ func (cr *informationRouter_pg) UpdateName(inputserialize_name models.Mqtt_Name)
 	}
 }
 
+func (cr *informationRouter_pg) UpdateLegalIdentity(inputserialize_legalidentity models.Mqtt_LegalIdentity) {
+	//Enviamos los datos al servicio
+	error_r := UpdateLegalIdentity_Service(inputserialize_legalidentity)
+	if error_r != nil {
+		log.Fatal(error_r)
+	}
+}
+
 func (cr *informationRouter_pg) UpdateUniqueName(inputserialize_uniquename models.Mqtt_Uniquename) {
 	//Enviamos los datos al servicio
 	error_r := UpdateUniqueName_Service(inputserialize_uniquename)

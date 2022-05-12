@@ -35,6 +35,7 @@ func Manejadores() {
 	go Consumer_TimeZone()
 	go Consumer_Schedule()
 	go Consumer_Uniquename()
+	go Consumer_LegalIdentity()
 	//Notify
 	go Notify_DataToComplete()
 
@@ -222,6 +223,38 @@ func Consumer_Name() {
 				log.Fatal("Error decoding")
 			}
 			informacion.InformationRouter_pg.UpdateName(name)
+
+			time.Sleep(5 * time.Second)
+		}
+	}()
+
+	<-noStopName
+}
+
+func Consumer_LegalIdentity() {
+
+	ch, error_conection := models.MqttCN.Channel()
+	if error_conection != nil {
+		log.Fatal("Error connection canal " + error_conection.Error())
+	}
+
+	msgs, err_consume := ch.Consume("anfitrion/legalidentity", "", true, false, false, false, nil)
+	if err_consume != nil {
+		log.Fatal("Error connection cola " + err_consume.Error())
+	}
+
+	noStopName := make(chan bool)
+
+	go func() {
+		for d := range msgs {
+			var legalidentity models.Mqtt_LegalIdentity
+			buf := bytes.NewBuffer(d.Body)
+			decoder := json.NewDecoder(buf)
+			err_consume := decoder.Decode(&legalidentity)
+			if err_consume != nil {
+				log.Fatal("Error decoding")
+			}
+			informacion.InformationRouter_pg.UpdateLegalIdentity(legalidentity)
 
 			time.Sleep(5 * time.Second)
 		}

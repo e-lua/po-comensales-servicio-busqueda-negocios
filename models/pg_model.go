@@ -88,4 +88,5 @@ type Pg_BasicData_ToBusiness struct {
 	Uniquename      string `json:"uniquename"`
 	TimeZone        string `json:"timezone"`
 	Typesuscription int    `json:"typesuscription"`
+	Legalidentity   string `json:"legalidentity"`
 }
