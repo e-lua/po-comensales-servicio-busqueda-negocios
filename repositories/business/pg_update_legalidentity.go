@@ -16,8 +16,8 @@ func Pg_UpdateLegalIdentity(input_mqtt_legalidentity models.Mqtt_LegalIdentity) 
 
 	db := models.Conectar_Pg_DB()
 
-	query := `UPDATE Business SET legalidentity=$1 WHERE idbusiness=$2`
-	if _, err_update := db.Exec(ctx, query, input_mqtt_legalidentity.LegalIdentity, input_mqtt_legalidentity.IdBusiness); err_update != nil {
+	query := `UPDATE Business SET legalidentity=$1,iva=$2 WHERE idbusiness=$3`
+	if _, err_update := db.Exec(ctx, query, input_mqtt_legalidentity.LegalIdentity, input_mqtt_legalidentity.IVA, input_mqtt_legalidentity.IdBusiness); err_update != nil {
 		return err_update
 	}
 

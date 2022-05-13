@@ -83,10 +83,11 @@ type Pg_R_TypeFood_ToBusiness struct {
 }
 
 type Pg_BasicData_ToBusiness struct {
-	IsOpen          bool   `json:"isopen"`
-	Name            string `json:"name"`
-	Uniquename      string `json:"uniquename"`
-	TimeZone        string `json:"timezone"`
-	Typesuscription int    `json:"typesuscription"`
-	Legalidentity   string `json:"legalidentity"`
+	IsOpen          bool    `json:"isopen"`
+	Name            string  `json:"name"`
+	Uniquename      string  `json:"uniquename"`
+	TimeZone        string  `json:"timezone"`
+	Typesuscription int     `json:"typesuscription"`
+	Legalidentity   string  `json:"legalidentity"`
+	IVA             float32 `json:"iva"`
 }
