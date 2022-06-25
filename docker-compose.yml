@@ -1,29 +1,47 @@
 version: "3.3"
 
 services: 
-  app:
-    container_name: restonercomensal_app_servicio_busqueda_informacion
+  c-busqueda:
+    labels: 
+      - "traefik.http.routers.c-busqueda.rule=Host(`c-busqueda.restoner-api.fun`)"
     restart: always 
     build: .
     networks:
       - backend
-    ports:
-      - "6850:6200"
     links:
       - postgres
   postgres:
     container_name: postgres_db
     restart: always
-    image: "postgres:13"
+    image: "bitnami/postgresql:14.4.0"
     networks:
       - backend
     ports:
-      - "7000:5432"
+      - "5432"
+    volumes:
+      - 'postgresql_master_data:/bitnami/postgresql'
     environment:
-      - DATABASE_HOST=127.0.0.1
-      - POSTGRES_USER=postgresxd
-      - POSTGRES_PASSWORD=GFgfk45345GGHdfinhjti5BHerYTu7ggn43
-      - POSTGRES_DB=postgresxd
+      - POSTGRESQL_REPLICATION_MODE=master
+      - POSTGRESQL_REPLICATION_USER=replicacion_usuario_123f24f3f3
+      - POSTGRESQL_REPLICATION_PASSWORD=replicacion_contrasenia_123f24f3f3
+      - POSTGRESQL_USERNAME=postgresxd
+      - POSTGRESQL_PASSWORD=GFgfk45345GGHdfinhjti5BHerYTu7ggn43
+      - POSTGRESQL_DATABASE=postgresxd
+  postgresql-slave:
+    image: 'bitnami/postgresql:14.4.0'
+    ports:
+      - "6432:5432"
+    networks:
+      - backend
+    depends_on:
+      - postgres
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=replicacion_usuario_123f24f3f3
+      - POSTGRESQL_REPLICATION_PASSWORD=replicacion_contrasenia_123f24f3f3
+      - POSTGRESQL_MASTER_HOST=postgres
+      - POSTGRESQL_PASSWORD=GFgfk45345GGHdfinhjti5BHerYTu7ggn43
+      - POSTGRESQL_MASTER_PORT_NUMBER=5432
   pgadmin:
     restart: always
     image: "dpage/pgadmin4"
@@ -36,10 +54,25 @@ services:
       PGADMIN_DEFAULT_PASSWORD: asd2134DAfas34c2q35G35gsdf
     depends_on:
       - postgres
+  traefik:
+    image: traefik:v2.3.6
+    ports: 
+      - 80:80
+      - 443:443
+    networks:
+      - backend
+    volumes: 
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik.yml:/traefik.yml
+      - ./acme.json:/acme.json
       
 networks:
   backend:
-
+    driver: bridge
+    ipam: 
+      driver: default 
+volumes:
+  postgresql_master_data:
 
 
 
