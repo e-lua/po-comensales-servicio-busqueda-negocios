@@ -23,7 +23,7 @@ func GetBasicData_Service(idbusiness int) (int, bool, string, models.Pg_BasicDat
 
 	//Primero en la memoria cache
 	basic_data_re, error_find_re := business_repository.Re_Get_BasicData_Business(idbusiness)
-	if error_find_re != nil {
+	if error_find_re != nil || basic_data_re.Basic_Data.Name == "" {
 		//Eliminamos los datos en PG
 		basic_data, error_find := business_repository.Pg_Find_BasicData(idbusiness)
 		if error_find != nil {
