@@ -21,21 +21,37 @@ import (
 
 func GetBasicData_Service(idbusiness int) (int, bool, string, models.Pg_BasicData_ToBusiness) {
 
-	var basic_data models.Pg_BasicData_ToBusiness
-
-	//Eliminamos los datos en PG
-	basic_data, error_find := business_repository.Pg_Find_BasicData(idbusiness)
-	if error_find != nil {
-		return 500, true, "Error interno en el servidor al intentar buscar la informacion basica del negocio, detalle: " + error_find.Error(), basic_data
-	}
-	if basic_data.Name == "" {
-		basic_data, error_find_2 := business_repository.Pg_Find_BasicData_WithoutData(idbusiness)
-		if error_find_2 != nil {
-			return 500, true, "Error interno en el servidor al intentar buscar la informacion basica del negocio, detalle: " + error_find_2.Error(), basic_data
+	//Primero en la memoria cache
+	basic_data_re, error_find_re := business_repository.Re_Get_BasicData_Business(idbusiness)
+	if error_find_re != nil {
+		//Eliminamos los datos en PG
+		basic_data, error_find := business_repository.Pg_Find_BasicData(idbusiness)
+		if error_find != nil {
+			return 500, true, "Error interno en el servidor al intentar buscar la informacion basica del negocio, detalle: " + error_find.Error(), basic_data
 		}
+		if basic_data.Name == "" {
+			basic_data, error_find_2 := business_repository.Pg_Find_BasicData_WithoutData(idbusiness)
+			if error_find_2 != nil {
+				return 500, true, "Error interno en el servidor al intentar buscar la informacion basica del negocio, detalle: " + error_find_2.Error(), basic_data
+			}
+
+			//Agregamos a la memoria cache
+			err_add_cache := business_repository.Re_Set_BasicData_Business(idbusiness, basic_data)
+			if err_add_cache != nil {
+				return 500, true, "Error interno en el servidor al intentar agregar los datos a la memoria cache, detalle: " + err_add_cache.Error(), basic_data
+			}
+			return 200, false, "", basic_data
+		}
+
+		//Agregamos a la memoria cache
+		err_add_cache := business_repository.Re_Set_BasicData_Business(idbusiness, basic_data)
+		if err_add_cache != nil {
+			return 500, true, "Error interno en el servidor al intentar agregar los datos a la memoria cache, detalle: " + err_add_cache.Error(), basic_data
+		}
+		return 200, false, "", basic_data
 	}
 
-	return 200, false, "", basic_data
+	return 200, false, "", basic_data_re.Basic_Data
 }
 
 func GetSchedule_Service(idbusiness int) (int, bool, string, []models.Pg_R_Schedule_ToBusiness) {

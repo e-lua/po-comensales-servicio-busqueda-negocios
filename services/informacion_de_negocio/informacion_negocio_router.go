@@ -6,8 +6,10 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/models"
 	"github.com/labstack/echo/v4"
+
+	//REPOSITORIES
+	models "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/models"
 )
 
 var InformationRouter_pg *informationRouter_pg
@@ -78,6 +80,7 @@ func (cr *informationRouter_pg) UpdateName(inputserialize_name models.Mqtt_Name)
 	if error_r != nil {
 		log.Fatal(error_r)
 	}
+
 }
 
 func (cr *informationRouter_pg) UpdateLegalIdentity(inputserialize_legalidentity models.Mqtt_LegalIdentity) {

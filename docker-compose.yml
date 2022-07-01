@@ -10,6 +10,14 @@ services:
       - backend
     links:
       - postgres
+      - redis
+  redis:
+    image: redis:5.0.0
+    container_name: master
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
   postgres:
     container_name: postgres_db
     restart: always
