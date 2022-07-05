@@ -33,7 +33,7 @@ services:
       - backend
   redis-slave-2:
     image: redis:5.0.0
-    container_name: slave
+    container_name: slave-2
     ports:
       - "6390:6379"
     command: redis-server --slaveof master 6379
