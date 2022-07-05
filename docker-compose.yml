@@ -11,6 +11,7 @@ services:
     links:
       - postgres
       - postgresql-slave
+      - postgres-comensal
       - redis
       - redis-slave
       - redis-slave-2
@@ -74,6 +75,18 @@ services:
       - POSTGRESQL_MASTER_HOST=postgres
       - POSTGRESQL_PASSWORD=GFgfk45345GGHdfinhjti5BHerYTu7ggn43
       - POSTGRESQL_MASTER_PORT_NUMBER=5432
+  postgres-comensal:
+    restart: always
+    image: "postgres:14"
+    networks:
+      - backend
+    ports:
+      - "7000:5432"
+    environment:
+      - DATABASE_HOST=127.0.0.1
+      - POSTGRES_USER=postgresxd00
+      - POSTGRES_PASSWORD=GFgfk45345GGHdfinhjti5BHerYTu7fsdggn000
+      - POSTGRES_DB=postgresxd00
   pgadmin:
     restart: always
     image: "dpage/pgadmin4"

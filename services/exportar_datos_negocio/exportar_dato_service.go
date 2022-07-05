@@ -103,7 +103,7 @@ func GetTypeFood_Service(idbusiness int, country int) (int, bool, string, []mode
 func GetRecoverAll_Service() (int, bool, string, []models.Mo_Business) {
 
 	//Buscamos todos los negocios a recuperar datos
-	all_business, error_find := recover_repository.Pg_Recover_All()
+	all_business, error_find := recover_repository.Pg_Comensal_Recover_All()
 	if error_find != nil {
 		return 500, true, "Error interno en el servidor al intentar buscar el horario del negocio, detalle: " + error_find.Error(), all_business
 	}
@@ -114,7 +114,7 @@ func GetRecoverAll_Service() (int, bool, string, []models.Mo_Business) {
 func GetRecoverOne_Service(idbusiness int) (int, bool, string, models.Mo_Business) {
 
 	//Buscamos un negocio a recuperar datos
-	one_business, error_find := recover_repository.Pg_Recover_One(idbusiness)
+	one_business, error_find := recover_repository.Pg_Comensal_Recover_One(idbusiness)
 	if error_find != nil {
 		return 500, true, "Error interno en el servidor al intentar buscar el horario del negocio, detalle: " + error_find.Error(), one_business
 	}

@@ -2,29 +2,20 @@ package repositories
 
 import (
 	"context"
-	"math/rand"
 	"time"
 
 	models "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/models"
 	"github.com/jackc/pgx/v4"
-	"github.com/jackc/pgx/v4/pgxpool"
 )
 
-func Pg_Find(idcomensal int) ([]models.Pg_Found_All_Business, error) {
+func Pg_Comensal_Find(idcomensal int) ([]models.Pg_Found_All_Business, error) {
 
 	//Tiempo limite al contexto
 	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
 	//defer cancelara el contexto
 	defer cancel()
 
-	var db *pgxpool.Pool
-
-	random := rand.Intn(4)
-	if random%2 == 0 {
-		db = models.Conectar_Pg_DB()
-	} else {
-		db = models.Conectar_Pg_DB_Slave()
-	}
+	db := models.Conectar_Pg_DB_Comensal()
 
 	//Instanciamos una query
 	var q string

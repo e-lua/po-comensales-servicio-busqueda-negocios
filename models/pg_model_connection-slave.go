@@ -8,7 +8,7 @@ import (
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
-var PostgresCN_Slave = Conectar_Pg_DB()
+var PostgresCN_Slave = Conectar_Pg_DB_Slave()
 
 var (
 	once_pg_Slave sync.Once

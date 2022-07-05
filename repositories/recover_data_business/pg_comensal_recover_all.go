@@ -8,14 +8,14 @@ import (
 )
 
 //En caso de hackeo
-func Pg_Recover_All() ([]models.Mo_Business, error) {
+func Pg_Comensal_Recover_All() ([]models.Mo_Business, error) {
 
 	//Tiempo limite al contexto
 	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB()
+	db := models.Conectar_Pg_DB_Comensal()
 	q := "SELECT idbusiness,name,createddate,timezone,view,uniquename FROM business"
 	rows, error_show := db.Query(ctx, q)
 

@@ -8,7 +8,7 @@ import (
 )
 
 //En caso de hackeo
-func Pg_Recover_One(idbusiness int) (models.Mo_Business, error) {
+func Pg_Comensal_Recover_One(idbusiness int) (models.Mo_Business, error) {
 
 	//Tiempo limite al contexto
 	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
@@ -17,7 +17,7 @@ func Pg_Recover_One(idbusiness int) (models.Mo_Business, error) {
 
 	var business models.Mo_Business
 
-	db := models.Conectar_Pg_DB()
+	db := models.Conectar_Pg_DB_Comensal()
 	q := "SELECT idbusiness,name,createddate,timezone,view,uniquename FROM business WHERE idbusiness=$1"
 	error_show := db.QueryRow(ctx, q, idbusiness).Scan(&business.IdBusiness, &business.Name, &business.CreatedDate, &business.TimeZone, &business.View, &business.Uniquename)
 
