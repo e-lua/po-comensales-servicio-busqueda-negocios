@@ -56,7 +56,6 @@ services:
       - DATABASE_HOST=127.0.0.1
       - POSTGRESQL_REPLICATION_USER=replicacion_usuario_123f24f3f3
       - POSTGRESQL_REPLICATION_PASSWORD=replicacion_contrasenia_123f24f3f3
-      - POSTGRESQL_USERNAME=postgresxd
       - POSTGRESQL_PASSWORD=GFgfk45345GGHdfinhjti5BHerYTu7ggn43
       - POSTGRESQL_DATABASE=postgresxd
       - POSTGRESQL_POSTGRES_PASSWORD=postgresqsuperuser
