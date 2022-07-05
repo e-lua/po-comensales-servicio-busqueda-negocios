@@ -18,7 +18,7 @@ func Re_Set_BasicData_Business(idbusiness int, basic_Data models.Pg_BasicData_To
 		return err_marshal
 	}
 
-	_, err_do := models.RedisCN.Get().Do("SET", strconv.Itoa(basicdata.IdBusiness), uJson, "EX", 2000)
+	_, err_do := models.RedisCN.Get().Do("SET", strconv.Itoa(basicdata.IdBusiness), uJson, "EX", 1000)
 	if err_do != nil {
 		return err_do
 	}

@@ -2,10 +2,12 @@ package repositories
 
 import (
 	"context"
+	"math/rand"
 	"time"
 
 	models "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/models"
 	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 func Pg_Find_Open(latitude float64, longitude float64, services []int, typefood []int, payment []int) ([]models.Pg_Found_All_Business, error) {
@@ -14,8 +16,6 @@ func Pg_Find_Open(latitude float64, longitude float64, services []int, typefood 
 	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
 	//defer cancelara el contexto
 	defer cancel()
-
-	db := models.Conectar_Pg_DB()
 
 	//Instanciamos una query
 	var q string
@@ -52,6 +52,15 @@ func Pg_Find_Open(latitude float64, longitude float64, services []int, typefood 
 	}
 	if payment_counter > 0 {
 		counter = counter + 20
+	}
+
+	var db *pgxpool.Pool
+
+	random := rand.Intn(4)
+	if random%2 == 0 {
+		db = models.Conectar_Pg_DB()
+	} else {
+		db = models.Conectar_Pg_DB_Slave()
 	}
 
 	//Buscamos la consulta
