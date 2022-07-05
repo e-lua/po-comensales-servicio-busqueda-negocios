@@ -56,9 +56,9 @@ services:
       - DATABASE_HOST=127.0.0.1
       - POSTGRESQL_REPLICATION_USER=replicacion_usuario_123f24f3f3
       - POSTGRESQL_REPLICATION_PASSWORD=replicacion_contrasenia_123f24f3f3
-      - POSTGRESQL_USERNAME=postgresxd
+      - POSTGRESQL_USERNAME=postgres
       - POSTGRESQL_PASSWORD=GFgfk45345GGHdfinhjti5BHerYTu7ggn43
-      - POSTGRESQL_DATABASE=postgresxd
+      - POSTGRESQL_DATABASE=postgres
   postgresql-slave:
     image: 'bitnami/postgresql:14.4.0'
     ports:
