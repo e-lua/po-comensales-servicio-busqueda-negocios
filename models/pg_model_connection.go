@@ -1,5 +1,6 @@
 package models
 
+/*
 import (
 	"context"
 	"sync"
@@ -29,3 +30,4 @@ func Conectar_Pg_DB() *pgxpool.Pool {
 	})
 	return p_pg
 }
+*/

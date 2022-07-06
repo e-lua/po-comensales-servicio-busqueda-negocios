@@ -14,7 +14,8 @@ func Pg_UpdateBanner(input_mqtt_banner models.Mqtt_Banner_Cola) error {
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB()
+	//Cambio de Server y BD, ya que no se puede acceder al rol de superusuario para la busqueda por distancia
+	db := models.Conectar_Pg_DB_Comensal()
 
 	query := `UPDATE Business SET urlbanner=$1 WHERE idbusiness=$2`
 	if _, err_update := db.Exec(ctx, query, input_mqtt_banner.Url, input_mqtt_banner.IdBusiness); err_update != nil {

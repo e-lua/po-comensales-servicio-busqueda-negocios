@@ -14,7 +14,8 @@ func Pg_Add_IntialiData(anfitrionpg models.Mqtt_CreateInitialData) error {
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB()
+	//Cambio de Server y BD, ya que no se puede acceder al rol de superusuario para la busqueda por distancia
+	db := models.Conectar_Pg_DB_Comensal()
 
 	//Agregamos el Business
 	query := `INSERT INTO Business(idbusiness,idcountry,createddate) VALUES ($1,$2,$3)`

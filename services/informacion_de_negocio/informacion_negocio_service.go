@@ -22,12 +22,6 @@ func CreateBusiness_Service(input_mqtt_create models.Mqtt_CreateInitialData) err
 		log.Fatal(error_delete_pg)
 	}
 
-	//Insertamos los datos en la BD que consultará el comensal
-	error_delete_pg_comensal := business_repository.Pg_Comensal_Add_IntialiData(input_mqtt_create)
-	if error_delete_pg_comensal != nil {
-		log.Fatal(error_delete_pg_comensal)
-	}
-
 	return nil
 }
 
@@ -45,12 +39,6 @@ func UpdatePaymenth_Service(input_mqtt_payment models.Mqtt_PaymentMethod) error 
 		log.Fatal(error_delete_pg)
 	}
 
-	//Insertamos los datos en la BD que consultará el comensal
-	error_delete_pg_comensal := payment_business_repository.Pg_Comensal_Delete_Update(input_mqtt_payment)
-	if error_delete_pg_comensal != nil {
-		log.Fatal(error_delete_pg_comensal)
-	}
-
 	return nil
 }
 
@@ -59,12 +47,6 @@ func UpdateSchedule_Service(input_mqtt_schedule models.Mqtt_Schedule) error {
 	error_delete_pg := day_business_repository.Pg_Delete_Update(input_mqtt_schedule)
 	if error_delete_pg != nil {
 		log.Fatal(error_delete_pg)
-	}
-
-	//Insertamos los datos en la BD que consultará el comensal
-	error_delete_pg_comensal := day_business_repository.Pg_Comensal_Delete_Update(input_mqtt_schedule)
-	if error_delete_pg_comensal != nil {
-		log.Fatal(error_delete_pg_comensal)
 	}
 
 	return nil
@@ -77,12 +59,6 @@ func UpdateService_Service(input_mqtt_service models.Mqtt_Service) error {
 		log.Fatal(error_delete_pg)
 	}
 
-	//Insertamos los datos en la BD que consultará el comensal
-	error_delete_pg_comensal := service_business_repository.Pg_Comensal_Delete_Update(input_mqtt_service)
-	if error_delete_pg_comensal != nil {
-		log.Fatal(error_delete_pg_comensal)
-	}
-
 	return nil
 }
 
@@ -91,12 +67,6 @@ func UpdateTypeFood_Service(input_mqtt_typefood models.Mqtt_TypeFood) error {
 	error_delete_pg := typefood_business_repository.Pg_Delete_Update(input_mqtt_typefood)
 	if error_delete_pg != nil {
 		log.Fatal(error_delete_pg)
-	}
-
-	//Insertamos los datos en la BD que consultará el comensal
-	error_delete_pg_comensal := typefood_business_repository.Pg_Comensal_Delete_Update(input_mqtt_typefood)
-	if error_delete_pg_comensal != nil {
-		log.Fatal(error_delete_pg_comensal)
 	}
 
 	return nil
@@ -108,12 +78,6 @@ func UpdateName_Service(input_mqtt_name models.Mqtt_Name) error {
 	error_add_pg := business_repository.Pg_UpdateName(input_mqtt_name)
 	if error_add_pg != nil {
 		log.Fatal(error_add_pg)
-	}
-
-	//Insertamos los datos en la BD que consultará el comensal
-	error_delete_pg_comensal := business_repository.Pg_Comensal_UpdateName(input_mqtt_name)
-	if error_delete_pg_comensal != nil {
-		log.Fatal(error_delete_pg_comensal)
 	}
 
 	//Guardamos los datos en la memoria cache
@@ -161,12 +125,6 @@ func UpdateUniqueName_Service(input_mqtt_uniquename models.Mqtt_Uniquename) erro
 		log.Fatal(error_add_pg)
 	}
 
-	//Insertamos los datos en la BD que consultará el comensal
-	error_add_pg_comensal := business_repository.Pg_Comensal_UpdateUniqueName(input_mqtt_uniquename)
-	if error_add_pg_comensal != nil {
-		log.Fatal(error_add_pg_comensal)
-	}
-
 	//Guardamos los datos en la memoria cache
 	basic_data_re, error_get_cache := business_repository.Re_Get_BasicData_Business(input_mqtt_uniquename.IdBusiness)
 	if error_get_cache != nil {
@@ -187,12 +145,6 @@ func UpdateTimeZone_Service(input_mqtt_open models.Mqtt_TimeZone) error {
 	error_add_pg := business_repository.Pg_UpdateTimeZone(input_mqtt_open)
 	if error_add_pg != nil {
 		log.Fatal(error_add_pg)
-	}
-
-	//Insertamos los datos en la BD que consultará el comensal
-	error_add_pg_comensal := business_repository.Pg_Comensal_UpdateTimeZone(input_mqtt_open)
-	if error_add_pg_comensal != nil {
-		log.Fatal(error_add_pg_comensal)
 	}
 
 	//Guardamos los datos en la memoria cache

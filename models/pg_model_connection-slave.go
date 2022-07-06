@@ -1,5 +1,6 @@
 package models
 
+/*
 import (
 	"context"
 	"sync"
@@ -28,4 +29,4 @@ func Conectar_Pg_DB_Slave() *pgxpool.Pool {
 		p_pg_Slave, _ = pgxpool.ConnectConfig(ctx, config)
 	})
 	return p_pg_Slave
-}
+}*/

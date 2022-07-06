@@ -14,7 +14,8 @@ func Pg_UpdateAddress(input_mqtt_address models.Mqtt_Addres) error {
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB()
+	//Cambio de Server y BD, ya que no se puede acceder al rol de superusuario para la busqueda por distancia
+	db := models.Conectar_Pg_DB_Comensal()
 
 	query := `UPDATE business SET latitude=$1,longitude=$2 WHERE idbusiness=$3`
 	if _, err := db.Exec(ctx, query, input_mqtt_address.Latitude, input_mqtt_address.Longitude, input_mqtt_address.IdBusiness); err != nil {

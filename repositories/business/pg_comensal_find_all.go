@@ -123,7 +123,8 @@ func delete(idcomensal int) error {
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB()
+	//Cambio de Server y BD, ya que no se puede acceder al rol de superusuario para la busqueda por distancia
+	db := models.Conectar_Pg_DB_Comensal()
 
 	//Eliminamos los datos
 	q := `DELETE FROM Near WHERE idcomensal=$1`
@@ -142,7 +143,8 @@ func insertFoundBusiness(idcomensales []int, idbusiness []int, distance []float6
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB()
+	//Cambio de Server y BD, ya que no se puede acceder al rol de superusuario para la busqueda por distancia
+	db := models.Conectar_Pg_DB_Comensal()
 
 	query := `INSERT INTO Near(idcomensal,idbusiness,distance) (select * from unnest($1::int[], $2::int[], $3::real[]))`
 	if _, err := db.Exec(ctx, query, idcomensales, idbusiness, distance); err != nil {

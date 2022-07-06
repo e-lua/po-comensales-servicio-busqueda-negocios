@@ -2,11 +2,9 @@ package repositories
 
 import (
 	"context"
-	"math/rand"
 	"time"
 
 	models "github.com/Aphofisis/po-comensales-servicio-busqueda-negocios/models"
-	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 func Pg_Find_BasicData(idbusiness int) (models.Pg_BasicData_ToBusiness, error) {
@@ -17,14 +15,10 @@ func Pg_Find_BasicData(idbusiness int) (models.Pg_BasicData_ToBusiness, error) {
 	defer cancel()
 
 	var basic_data models.Pg_BasicData_ToBusiness
-	var db *pgxpool.Pool
 
-	random := rand.Intn(4)
-	if random%2 == 0 {
-		db = models.Conectar_Pg_DB()
-	} else {
-		db = models.Conectar_Pg_DB_Slave()
-	}
+	//Cambio de Server y BD, ya que no se puede acceder al rol de superusuario para la busqueda por distancia
+
+	db := models.Conectar_Pg_DB_Comensal()
 
 	q := "SELECT b.legalidentity,b.IVA,b.typesuscription,COALESCE(b.uniquename,'sin nombre'),COALESCE(b.name,'sin nombre'), COALESCE(b.timezone,'0'),COALESCE(CASE WHEN now()::time at time zone CONCAT('UTC',(b.timezone::integer*-1)::varchar(3))< concat(bsch.endtime,b.timezone)::time with time zone AND now()::time at time zone CONCAT('UTC',(b.timezone::integer*-1)::varchar(3))> concat(bsch.starttime,b.timezone)::time with time zone THEN true ELSE false END,'false') FROM business as b JOIN businessschedule as bsch ON b.idbusiness=bsch.idbusiness WHERE bsch.idschedule=EXTRACT(ISODOW FROM (NOW()::timestamp at time zone CONCAT('UTC',(b.timezone::integer)::varchar(3)))) AND b.idbusiness=$1"
 	error_shown := db.QueryRow(ctx, q, idbusiness).Scan(&basic_data.Legalidentity, &basic_data.IVA, &basic_data.Typesuscription, &basic_data.Uniquename, &basic_data.Name, &basic_data.TimeZone, &basic_data.IsOpen)
@@ -45,14 +39,10 @@ func Pg_Find_BasicData_WithoutData(idbusiness int) (models.Pg_BasicData_ToBusine
 	defer cancel()
 
 	var basic_data models.Pg_BasicData_ToBusiness
-	var db *pgxpool.Pool
 
-	random := rand.Intn(4)
-	if random%2 == 0 {
-		db = models.Conectar_Pg_DB()
-	} else {
-		db = models.Conectar_Pg_DB_Slave()
-	}
+	//Cambio de Server y BD, ya que no se puede acceder al rol de superusuario para la busqueda por distancia
+
+	db := models.Conectar_Pg_DB_Comensal()
 
 	q := "SELECT b.legalidentity,b.IVA,b.typesuscription,COALESCE(b.uniquename,'sin nombre'),COALESCE(b.name,'sin nombre'),COALESCE(b.timezone,'0'),false FROM business as b WHERE b.idbusiness=$1"
 	error_shown := db.QueryRow(ctx, q, idbusiness).Scan(&basic_data.Legalidentity, &basic_data.IVA, &basic_data.Typesuscription, &basic_data.Uniquename, &basic_data.Name, &basic_data.TimeZone, &basic_data.IsOpen)

@@ -14,7 +14,8 @@ func Pg_UpdateAddress(urlphoto string, idbusiness int) error {
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB()
+	//Cambio de Server y BD, ya que no se puede acceder al rol de superusuario para la busqueda por distancia
+	db := models.Conectar_Pg_DB_Comensal()
 
 	query := `UPDATE Business SET urlbanner=$1 WHERE idbusiness=$2`
 	if _, err_update := db.Exec(ctx, query, urlphoto, idbusiness); err_update != nil {

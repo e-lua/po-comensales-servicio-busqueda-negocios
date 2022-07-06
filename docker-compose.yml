@@ -82,6 +82,8 @@ services:
       - backend
     ports:
       - "7000:5432"
+    volumes:
+      - 'data:/var/lib/postgresql/data'
     environment:
       - DATABASE_HOST=127.0.0.1
       - POSTGRES_USER=postgresxd00
@@ -98,7 +100,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: admincd@admincd.com
       PGADMIN_DEFAULT_PASSWORD: asd2134DAfas34c2q35G35gsdf
     depends_on:
-      - postgres
+      - postgres-comensal
   traefik:
     image: traefik:v2.3.6
     ports: 
@@ -117,6 +119,7 @@ networks:
     ipam: 
       driver: default 
 volumes:
+  data:
   postgresql_master_data:
 
 

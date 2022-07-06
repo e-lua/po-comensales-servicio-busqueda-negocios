@@ -15,7 +15,8 @@ func Pg_Delete_Update(input_mqtt_typefood models.Mqtt_TypeFood) error {
 	defer cancel()
 
 	//Conexion con la BD
-	db := models.Conectar_Pg_DB()
+	//Cambio de Server y BD, ya que no se puede acceder al rol de superusuario para la busqueda por distancia
+	db := models.Conectar_Pg_DB_Comensal()
 
 	//BEGIN
 	tx, error_tx := db.Begin(ctx)
