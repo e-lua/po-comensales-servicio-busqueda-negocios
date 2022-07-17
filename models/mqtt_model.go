@@ -57,9 +57,10 @@ type Mqtt_Uniquename struct {
 }
 
 type Mqtt_LegalIdentity struct {
-	IdBusiness    int     `json:"idbusiness"`
-	LegalIdentity string  `json:"legalidentity"`
-	IVA           float32 `json:"iva"`
+	IdBusiness      int     `json:"idbusiness"`
+	LegalIdentity   string  `json:"legalidentity"`
+	IVA             float32 `json:"iva"`
+	Typesuscription int     `json:"typesuscription"`
 }
 
 type Mqtt_Banner_Cola struct {
