@@ -83,9 +83,9 @@ func (cr *informationRouter_pg) UpdateName(inputserialize_name models.Mqtt_Name)
 
 }
 
-func (cr *informationRouter_pg) UpdateLegalIdentity(inputserialize_legalidentity models.Mqtt_LegalIdentity) {
+func (cr *informationRouter_pg) UpdateLegalIdentity(inputserialize_legalidentity_multiple []models.Mqtt_LegalIdentity) {
 	//Enviamos los datos al servicio
-	error_r := UpdateLegalIdentity_Service(inputserialize_legalidentity)
+	error_r := UpdateLegalIdentity_Service(inputserialize_legalidentity_multiple)
 	if error_r != nil {
 		log.Fatal(error_r)
 	}

@@ -94,24 +94,28 @@ func UpdateName_Service(input_mqtt_name models.Mqtt_Name) error {
 	return nil
 }
 
-func UpdateLegalIdentity_Service(inputserialize_legalidentity models.Mqtt_LegalIdentity) error {
+func UpdateLegalIdentity_Service(inputserialize_legalidentity_multiple []models.Mqtt_LegalIdentity) error {
 
 	//Insertamos los datos en PG
-	error_add_pg := business_repository.Pg_UpdateLegalIdentity(inputserialize_legalidentity)
+	error_add_pg := business_repository.Pg_UpdateLegalIdentity_Multiple(inputserialize_legalidentity_multiple)
 	if error_add_pg != nil {
 		log.Fatal(error_add_pg)
 	}
 
-	//Guardamos los datos en la memoria cache
-	basic_data_re, error_get_cache := business_repository.Re_Get_BasicData_Business(inputserialize_legalidentity.IdBusiness)
-	if error_get_cache != nil {
-		log.Fatal(error_get_cache)
-	}
-	basic_data_re.Basic_Data.Legalidentity = inputserialize_legalidentity.LegalIdentity
-	basic_data_re.Basic_Data.IVA = inputserialize_legalidentity.IVA
-	err_add_cache := business_repository.Re_Set_BasicData_Business(inputserialize_legalidentity.IdBusiness, basic_data_re.Basic_Data)
-	if err_add_cache != nil {
-		log.Fatal(err_add_cache)
+	for _, inputserialize_legalidentity := range inputserialize_legalidentity_multiple {
+
+		//Guardamos los datos en la memoria cache
+		basic_data_re, error_get_cache := business_repository.Re_Get_BasicData_Business(inputserialize_legalidentity.IdBusiness)
+		if error_get_cache != nil {
+			log.Fatal(error_get_cache)
+		}
+		basic_data_re.Basic_Data.Legalidentity = inputserialize_legalidentity.LegalIdentity
+		basic_data_re.Basic_Data.IVA = inputserialize_legalidentity.IVA
+		err_add_cache := business_repository.Re_Set_BasicData_Business(inputserialize_legalidentity.IdBusiness, basic_data_re.Basic_Data)
+		if err_add_cache != nil {
+			log.Fatal(err_add_cache)
+		}
+
 	}
 
 	return nil
