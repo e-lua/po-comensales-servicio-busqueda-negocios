@@ -36,7 +36,7 @@ func (cr *informationRouter_pg) CreateBusiness(inputserialize_create models.Mqtt
 	//Enviamos los datos al servicio
 	error_r := CreateBusiness_Service(inputserialize_create)
 	if error_r != nil {
-		log.Fatal(error_r)
+		log.Println(error_r)
 	}
 }
 
@@ -46,7 +46,7 @@ func (cr *informationRouter_pg) UpdatePaymenth(inputserialize_payment models.Mqt
 	//Enviamos los datos al servicio
 	error_r := UpdatePaymenth_Service(inputserialize_payment)
 	if error_r != nil {
-		log.Fatal(error_r)
+		log.Println(error_r)
 	}
 }
 
@@ -54,7 +54,7 @@ func (cr *informationRouter_pg) UpdateSchedule(inputserialize_payment models.Mqt
 	//Enviamos los datos al servicio
 	error_r := UpdateSchedule_Service(inputserialize_payment)
 	if error_r != nil {
-		log.Fatal(error_r)
+		log.Println(error_r)
 	}
 }
 
@@ -62,7 +62,7 @@ func (cr *informationRouter_pg) UpdateService(inputserialize_service models.Mqtt
 	//Enviamos los datos al servicio
 	error_r := UpdateService_Service(inputserialize_service)
 	if error_r != nil {
-		log.Fatal(error_r)
+		log.Println(error_r)
 	}
 }
 
@@ -70,7 +70,7 @@ func (cr *informationRouter_pg) UpdateTypeFood(inputserialize_typefood models.Mq
 	//Enviamos los datos al servicio
 	error_r := UpdateTypeFood_Service(inputserialize_typefood)
 	if error_r != nil {
-		log.Fatal(error_r)
+		log.Println(error_r)
 	}
 }
 
@@ -78,7 +78,7 @@ func (cr *informationRouter_pg) UpdateName(inputserialize_name models.Mqtt_Name)
 	//Enviamos los datos al servicio
 	error_r := UpdateName_Service(inputserialize_name)
 	if error_r != nil {
-		log.Fatal(error_r)
+		log.Println(error_r)
 	}
 
 }
@@ -87,7 +87,7 @@ func (cr *informationRouter_pg) UpdateLegalIdentity(inputserialize_legalidentity
 	//Enviamos los datos al servicio
 	error_r := UpdateLegalIdentity_Service(inputserialize_legalidentity_multiple)
 	if error_r != nil {
-		log.Fatal(error_r)
+		log.Println(error_r)
 	}
 }
 
@@ -95,7 +95,7 @@ func (cr *informationRouter_pg) UpdateUniqueName(inputserialize_uniquename model
 	//Enviamos los datos al servicio
 	error_r := UpdateUniqueName_Service(inputserialize_uniquename)
 	if error_r != nil {
-		log.Fatal(error_r)
+		log.Println(error_r)
 	}
 }
 
@@ -103,7 +103,7 @@ func (cr *informationRouter_pg) UpdateTimeZone(inputserialize_open models.Mqtt_T
 	//Enviamos los datos al servicio
 	error_r := UpdateTimeZone_Service(inputserialize_open)
 	if error_r != nil {
-		log.Fatal(error_r)
+		log.Println(error_r)
 	}
 }
 
@@ -111,7 +111,7 @@ func (cr *informationRouter_pg) UpdateBanner(inputserialize_banner models.Mqtt_B
 	//Enviamos los datos al servicio
 	error_r := UpdateBanner_Service(inputserialize_banner)
 	if error_r != nil {
-		log.Fatal(error_r)
+		log.Println(error_r)
 	}
 }
 
@@ -119,8 +119,29 @@ func (cr *informationRouter_pg) UpdateAddress(inputserialize_address models.Mqtt
 	//Enviamos los datos al servicio
 	error_r := UpdateAddress_Service(inputserialize_address)
 	if error_r != nil {
-		log.Fatal(error_r)
+		log.Println(error_r)
 	}
+}
+
+/*-----------------------------------------------------------------------------------------------------*/
+
+func (cr *informationRouter_pg) Manual_UpdateBanner(c echo.Context) error {
+
+	var inputserialize_banner models.Mqtt_Banner_Cola
+
+	err := c.Bind(&inputserialize_banner)
+	if err != nil {
+		results := Response{Error: true, DataError: "Se debe enviar el nombre del negocio, revise la estructura o los valores", Data: ""}
+		return c.JSON(400, results)
+	}
+
+	//Enviamos los datos al servicio
+	error_r := UpdateBanner_Service(inputserialize_banner)
+	if error_r != nil {
+		log.Println(error_r)
+	}
+
+	return nil
 }
 
 func (cr *informationRouter_pg) GetAddress(c echo.Context) error {

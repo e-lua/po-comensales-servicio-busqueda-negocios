@@ -19,7 +19,7 @@ func CreateBusiness_Service(input_mqtt_create models.Mqtt_CreateInitialData) err
 
 	error_delete_pg := business_repository.Pg_Add_IntialiData(input_mqtt_create)
 	if error_delete_pg != nil {
-		log.Fatal(error_delete_pg)
+		log.Println(error_delete_pg)
 	}
 
 	return nil
@@ -36,7 +36,7 @@ func UpdatePaymenth_Service(input_mqtt_payment models.Mqtt_PaymentMethod) error 
 
 	error_delete_pg := payment_business_repository.Pg_Delete_Update(input_mqtt_payment)
 	if error_delete_pg != nil {
-		log.Fatal(error_delete_pg)
+		log.Println(error_delete_pg)
 	}
 
 	return nil
@@ -46,7 +46,7 @@ func UpdateSchedule_Service(input_mqtt_schedule models.Mqtt_Schedule) error {
 
 	error_delete_pg := day_business_repository.Pg_Delete_Update(input_mqtt_schedule)
 	if error_delete_pg != nil {
-		log.Fatal(error_delete_pg)
+		log.Println(error_delete_pg)
 	}
 
 	return nil
@@ -56,7 +56,7 @@ func UpdateService_Service(input_mqtt_service models.Mqtt_Service) error {
 
 	error_delete_pg := service_business_repository.Pg_Delete_Update(input_mqtt_service)
 	if error_delete_pg != nil {
-		log.Fatal(error_delete_pg)
+		log.Println(error_delete_pg)
 	}
 
 	return nil
@@ -66,7 +66,7 @@ func UpdateTypeFood_Service(input_mqtt_typefood models.Mqtt_TypeFood) error {
 
 	error_delete_pg := typefood_business_repository.Pg_Delete_Update(input_mqtt_typefood)
 	if error_delete_pg != nil {
-		log.Fatal(error_delete_pg)
+		log.Println(error_delete_pg)
 	}
 
 	return nil
@@ -77,18 +77,18 @@ func UpdateName_Service(input_mqtt_name models.Mqtt_Name) error {
 	//Insertamos los datos en PG
 	error_add_pg := business_repository.Pg_UpdateName(input_mqtt_name)
 	if error_add_pg != nil {
-		log.Fatal(error_add_pg)
+		log.Println(error_add_pg)
 	}
 
 	//Guardamos los datos en la memoria cache
 	basic_data_re, error_get_cache := business_repository.Re_Get_BasicData_Business(input_mqtt_name.IdBusiness)
 	if error_get_cache != nil {
-		log.Fatal(error_get_cache)
+		log.Println(error_get_cache)
 	}
 	basic_data_re.Basic_Data.Name = input_mqtt_name.Name
 	err_add_cache := business_repository.Re_Set_BasicData_Business(input_mqtt_name.IdBusiness, basic_data_re.Basic_Data)
 	if err_add_cache != nil {
-		log.Fatal(err_add_cache)
+		log.Println(err_add_cache)
 	}
 
 	return nil
@@ -99,7 +99,7 @@ func UpdateLegalIdentity_Service(inputserialize_legalidentity_multiple []models.
 	//Insertamos los datos en PG
 	error_add_pg := business_repository.Pg_UpdateLegalIdentity_Multiple(inputserialize_legalidentity_multiple)
 	if error_add_pg != nil {
-		log.Fatal(error_add_pg)
+		log.Println(error_add_pg)
 	}
 
 	for _, inputserialize_legalidentity := range inputserialize_legalidentity_multiple {
@@ -107,13 +107,13 @@ func UpdateLegalIdentity_Service(inputserialize_legalidentity_multiple []models.
 		//Guardamos los datos en la memoria cache
 		basic_data_re, error_get_cache := business_repository.Re_Get_BasicData_Business(inputserialize_legalidentity.IdBusiness)
 		if error_get_cache != nil {
-			log.Fatal(error_get_cache)
+			log.Println(error_get_cache)
 		}
 		basic_data_re.Basic_Data.Legalidentity = inputserialize_legalidentity.LegalIdentity
 		basic_data_re.Basic_Data.IVA = inputserialize_legalidentity.IVA
 		err_add_cache := business_repository.Re_Set_BasicData_Business(inputserialize_legalidentity.IdBusiness, basic_data_re.Basic_Data)
 		if err_add_cache != nil {
-			log.Fatal(err_add_cache)
+			log.Println(err_add_cache)
 		}
 
 	}
@@ -126,18 +126,18 @@ func UpdateUniqueName_Service(input_mqtt_uniquename models.Mqtt_Uniquename) erro
 	//Insertamos los datos en PG
 	error_add_pg := business_repository.Pg_UpdateUniqueName(input_mqtt_uniquename)
 	if error_add_pg != nil {
-		log.Fatal(error_add_pg)
+		log.Println(error_add_pg)
 	}
 
 	//Guardamos los datos en la memoria cache
 	basic_data_re, error_get_cache := business_repository.Re_Get_BasicData_Business(input_mqtt_uniquename.IdBusiness)
 	if error_get_cache != nil {
-		log.Fatal(error_get_cache)
+		log.Println(error_get_cache)
 	}
 	basic_data_re.Basic_Data.Uniquename = input_mqtt_uniquename.Uniquename
 	err_add_cache := business_repository.Re_Set_BasicData_Business(input_mqtt_uniquename.IdBusiness, basic_data_re.Basic_Data)
 	if err_add_cache != nil {
-		log.Fatal(err_add_cache)
+		log.Println(err_add_cache)
 	}
 
 	return nil
@@ -148,18 +148,18 @@ func UpdateTimeZone_Service(input_mqtt_open models.Mqtt_TimeZone) error {
 	//Insertamos los datos en PG
 	error_add_pg := business_repository.Pg_UpdateTimeZone(input_mqtt_open)
 	if error_add_pg != nil {
-		log.Fatal(error_add_pg)
+		log.Println(error_add_pg)
 	}
 
 	//Guardamos los datos en la memoria cache
 	basic_data_re, error_get_cache := business_repository.Re_Get_BasicData_Business(input_mqtt_open.IdBusiness)
 	if error_get_cache != nil {
-		log.Fatal(error_get_cache)
+		log.Println(error_get_cache)
 	}
 	basic_data_re.Basic_Data.TimeZone = input_mqtt_open.TimeZone
 	err_add_cache := business_repository.Re_Set_BasicData_Business(input_mqtt_open.IdBusiness, basic_data_re.Basic_Data)
 	if err_add_cache != nil {
-		log.Fatal(err_add_cache)
+		log.Println(err_add_cache)
 	}
 
 	return nil
@@ -170,13 +170,13 @@ func UpdateAddress_Service(input_mqtt_address models.Mqtt_Addres) error {
 	//Insertamos los datos en PG
 	error_add_pg := business_repository.Pg_UpdateAddress(input_mqtt_address)
 	if error_add_pg != nil {
-		log.Fatal(error_add_pg)
+		log.Println(error_add_pg)
 	}
 
 	//Insertamos los datos en PG
 	error_add_pg_comensal := business_repository.Pg_Comensal_UpdateAddress(input_mqtt_address)
 	if error_add_pg_comensal != nil {
-		log.Fatal(error_add_pg_comensal)
+		log.Println(error_add_pg_comensal)
 	}
 
 	return nil
@@ -187,13 +187,13 @@ func UpdateBanner_Service(input_mqtt_banner models.Mqtt_Banner_Cola) error {
 	//Insertamos los datos en PG
 	error_add_pg := business_repository.Pg_UpdateBanner(input_mqtt_banner)
 	if error_add_pg != nil {
-		log.Fatal(error_add_pg)
+		log.Println(error_add_pg)
 	}
 
-	//Insertamos los datos en PG
+	//Insertamos los datos en PG - Conexión de BD diferente
 	error_add_pg_comensal := business_repository.Pg_Comensal_UpdateBanner(input_mqtt_banner)
 	if error_add_pg_comensal != nil {
-		log.Fatal(error_add_pg_comensal)
+		log.Println(error_add_pg_comensal)
 	}
 
 	return nil

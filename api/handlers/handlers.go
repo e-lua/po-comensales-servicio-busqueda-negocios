@@ -30,7 +30,7 @@ func Manejadores() {
 	go Consumer_Service()
 	go Consumer_Typefood()
 	go Consumer_Name()
-	go Consumer_Banner()
+	//go Consumer_Banner()
 	go Consumer_Address()
 	go Consumer_TimeZone()
 	go Consumer_Schedule()
@@ -58,6 +58,7 @@ func Manejadores() {
 
 	//V1 FROM V1 TO ...TO ENTITY BUSINESS
 	router_business := version_1.Group("/business")
+	router_business.POST("/banner", informacion.InformationRouter_pg.Manual_UpdateBanner)
 	router_business.GET("/cache", busqueda.BusquedaRouter.GetBusinessCards_SearchedBefore)
 	router_business.GET("/open", busqueda.BusquedaRouter.GetBusinessCards_Open)
 	router_business.GET("/search", busqueda.BusquedaRouter.GetBusinessCards)
