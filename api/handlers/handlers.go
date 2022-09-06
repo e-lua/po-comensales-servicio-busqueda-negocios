@@ -26,15 +26,15 @@ func Manejadores() {
 
 	//Consumidor-MQTT
 	go Consumer_Create()
-	go Consumer_Paymenth()
+	/*go Consumer_Paymenth()
 	go Consumer_Service()
 	go Consumer_Typefood()
-	go Consumer_Name()
+	go Consumer_Name()*/
 	//go Consumer_Banner()
-	go Consumer_Address()
+	/*go Consumer_Address()
 	go Consumer_TimeZone()
-	go Consumer_Schedule()
-	go Consumer_Uniquename()
+	go Consumer_Schedule()*/
+	/*go Consumer_Uniquename()*/
 	go Consumer_LegalIdentity()
 	//Notify
 	go Notify_DataToComplete()
@@ -59,6 +59,14 @@ func Manejadores() {
 	//V1 FROM V1 TO ...TO ENTITY BUSINESS
 	router_business := version_1.Group("/business")
 	router_business.POST("/banner", informacion.InformationRouter_pg.Manual_UpdateBanner)
+	router_business.POST("/payment", informacion.InformationRouter_pg.Manual_UpdatePaymenth)
+	router_business.POST("/service", informacion.InformationRouter_pg.Manual_UpdateService)
+	router_business.POST("/typefood", informacion.InformationRouter_pg.Manual_UpdateTypeFood)
+	router_business.POST("/name", informacion.InformationRouter_pg.Manual_UpdateName)
+	router_business.POST("/address", informacion.InformationRouter_pg.Manual_UpdateAddress)
+	router_business.POST("/timezone", informacion.InformationRouter_pg.Manual_UpdateTimeZone)
+	router_business.POST("/schedule", informacion.InformationRouter_pg.Manual_UpdateSchedule)
+	router_business.POST("/uniquename", informacion.InformationRouter_pg.Manual_UpdateUniqueName)
 	router_business.GET("/cache", busqueda.BusquedaRouter.GetBusinessCards_SearchedBefore)
 	router_business.GET("/open", busqueda.BusquedaRouter.GetBusinessCards_Open)
 	router_business.GET("/search", busqueda.BusquedaRouter.GetBusinessCards)
@@ -104,6 +112,7 @@ func index(c echo.Context) error {
 	return c.JSON(401, "Acceso no autorizado")
 }
 
+/*
 func Consumer_Paymenth() {
 
 	ch, error_conection := models.MqttCN.Channel()
@@ -230,7 +239,7 @@ func Consumer_Name() {
 	}()
 
 	<-noStopName
-}
+}*/
 
 func Consumer_LegalIdentity() {
 
@@ -264,38 +273,7 @@ func Consumer_LegalIdentity() {
 	<-noStopName
 }
 
-func Consumer_Banner() {
-
-	ch, error_conection := models.MqttCN.Channel()
-	if error_conection != nil {
-		log.Fatal("Error connection canal " + error_conection.Error())
-	}
-
-	msgs, err_consume := ch.Consume("anfitrion/banner", "", true, false, false, false, nil)
-	if err_consume != nil {
-		log.Fatal("Error connection cola " + err_consume.Error())
-	}
-
-	noStopBanner := make(chan bool)
-
-	go func() {
-		for d := range msgs {
-			var banner models.Mqtt_Banner_Cola
-			buf := bytes.NewBuffer(d.Body)
-			decoder := json.NewDecoder(buf)
-			err_consume := decoder.Decode(&banner)
-			if err_consume != nil {
-				log.Fatal("Error decoding")
-			}
-			informacion.InformationRouter_pg.UpdateBanner(banner)
-
-			time.Sleep(5 * time.Second)
-		}
-	}()
-
-	<-noStopBanner
-}
-
+/*
 func Consumer_Address() {
 
 	ch, error_conection := models.MqttCN.Channel()
@@ -391,7 +369,7 @@ func Consumer_Schedule() {
 
 	<-noStopSchedule
 }
-
+*/
 func Consumer_Create() {
 
 	ch, error_conection := models.MqttCN.Channel()
@@ -424,6 +402,7 @@ func Consumer_Create() {
 	<-noStopSchedule
 }
 
+/*
 func Consumer_Uniquename() {
 
 	ch, error_conection := models.MqttCN.Channel()
@@ -455,6 +434,7 @@ func Consumer_Uniquename() {
 
 	<-noStopUniqueName
 }
+*/
 
 func Notify_DataToComplete() {
 	for {
