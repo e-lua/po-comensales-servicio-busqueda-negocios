@@ -25,8 +25,8 @@ func Manejadores() {
 	e.Use(middleware.Recover())
 
 	//Consumidor-MQTT
-	go Consumer_Create()
-	/*go Consumer_Paymenth()
+	/*go Consumer_Create()
+	go Consumer_Paymenth()
 	go Consumer_Service()
 	go Consumer_Typefood()
 	go Consumer_Name()*/
@@ -58,6 +58,7 @@ func Manejadores() {
 
 	//V1 FROM V1 TO ...TO ENTITY BUSINESS
 	router_business := version_1.Group("/business")
+	router_business.POST("/create", informacion.InformationRouter_pg.Manual_CreateBusiness)
 	router_business.POST("/banner", informacion.InformationRouter_pg.Manual_UpdateBanner)
 	router_business.POST("/payment", informacion.InformationRouter_pg.Manual_UpdatePaymenth)
 	router_business.POST("/service", informacion.InformationRouter_pg.Manual_UpdateService)
@@ -370,6 +371,7 @@ func Consumer_Schedule() {
 	<-noStopSchedule
 }
 */
+/*
 func Consumer_Create() {
 
 	ch, error_conection := models.MqttCN.Channel()
@@ -401,7 +403,7 @@ func Consumer_Create() {
 
 	<-noStopSchedule
 }
-
+*/
 /*
 func Consumer_Uniquename() {
 

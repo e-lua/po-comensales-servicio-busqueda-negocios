@@ -42,6 +42,24 @@ func (cr *informationRouter_pg) CreateBusiness(inputserialize_create models.Mqtt
 
 /*----------------------UPDATE MQTT DATA----------------------*/
 
+func (cr *informationRouter_pg) Manual_CreateBusiness(c echo.Context) error {
+
+	var createbusiness models.Mqtt_CreateInitialData
+
+	err := c.Bind(&createbusiness)
+	if err != nil {
+		results := Response{Error: true, DataError: "Se debe enviar el payment del negocio, revise la estructura o los valores", Data: ""}
+		return c.JSON(400, results)
+	}
+
+	//Enviamos los datos al servicio
+	error_r := CreateBusiness_Service(createbusiness)
+	if error_r != nil {
+		return nil
+	}
+	return nil
+}
+
 func (cr *informationRouter_pg) Manual_UpdatePaymenth(c echo.Context) error {
 
 	var inputserialize_payment models.Mqtt_PaymentMethod
