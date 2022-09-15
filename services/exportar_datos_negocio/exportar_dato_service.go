@@ -22,9 +22,8 @@ import (
 func GetBasicData_Service(idbusiness int) (int, bool, string, models.Pg_BasicData_ToBusiness) {
 
 	//Primero en la memoria cache
-	basic_data_re, error_find_re := business_repository.Re_Get_BasicData_Business(idbusiness)
-	if error_find_re != nil || basic_data_re.Basic_Data.Name == "" {
-		//Eliminamos los datos en PG
+	basic_data_re, _ := business_repository.Re_Get_BasicData_Business(idbusiness)
+	if basic_data_re.Basic_Data.Name == "" {
 		basic_data, error_find := business_repository.Pg_Find_BasicData(idbusiness)
 		if error_find != nil {
 			return 500, true, "Error interno en el servidor al intentar buscar la informacion basica del negocio, detalle: " + error_find.Error(), basic_data
