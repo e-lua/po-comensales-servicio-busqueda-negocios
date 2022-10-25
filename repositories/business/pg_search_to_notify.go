@@ -18,7 +18,7 @@ func Pg_SearchToNotify() ([]int, int, error) {
 
 	db := models.Conectar_Pg_DB_Comensal()
 
-	q := "SELECT idbusiness FROM business WHERE latitude is null OR uniquename is null"
+	q := "SELECT idbusiness,name FROM business WHERE latitude is not null OR uniquename <>'@'"
 	rows, error_shown := db.Query(ctx, q)
 
 	//Instanciamos una variable del modelo Pg_TypeFoodXBusiness
