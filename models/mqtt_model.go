@@ -71,8 +71,10 @@ type Mqtt_Banner_Cola struct {
 }
 
 type Mqtt_CreateInitialData struct {
-	IDBusiness int `json:"idbusiness"`
-	Country    int `json:"country"`
+	IDBusiness   int  `json:"idbusiness"`
+	Country      int  `json:"country"`
+	IsSubsidiary bool `json:"issubsidiary"`
+	SubsidiaryOf int  `json:"subsidiaryof"`
 }
 
 type Mqtt_View_Information struct {

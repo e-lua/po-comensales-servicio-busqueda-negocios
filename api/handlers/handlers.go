@@ -37,7 +37,7 @@ func Manejadores() {
 	/*go Consumer_Uniquename()*/
 	go Consumer_LegalIdentity()
 	//Notify
-	go Notify_DataToComplete()
+	//go Notify_DataToComplete()
 
 	e.GET("/", index)
 	//VERSION

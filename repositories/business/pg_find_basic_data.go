@@ -44,8 +44,8 @@ func Pg_Find_BasicData_WithoutData(idbusiness int) (models.Pg_BasicData_ToBusine
 
 	db := models.Conectar_Pg_DB_Comensal()
 
-	q := "SELECT b.legalidentity,b.IVA,b.typesuscription,COALESCE(b.uniquename,'sin nombre'),COALESCE(b.name,'sin nombre'),COALESCE(b.timezone,'0'),false FROM business as b WHERE b.idbusiness=$1"
-	error_shown := db.QueryRow(ctx, q, idbusiness).Scan(&basic_data.Legalidentity, &basic_data.IVA, &basic_data.Typesuscription, &basic_data.Uniquename, &basic_data.Name, &basic_data.TimeZone, &basic_data.IsOpen)
+	q := "SELECT b.legalidentity,b.IVA,b.typesuscription,COALESCE(b.uniquename,'sin nombre'),COALESCE(b.name,'sin nombre'),COALESCE(b.timezone,'0'),false,b.issubsidiary,b.subsidiaryof FROM business as b WHERE b.idbusiness=$1"
+	error_shown := db.QueryRow(ctx, q, idbusiness).Scan(&basic_data.Legalidentity, &basic_data.IVA, &basic_data.Typesuscription, &basic_data.Uniquename, &basic_data.Name, &basic_data.TimeZone, &basic_data.IsOpen, &basic_data.IsSubsidiary, &basic_data.SubsidiaryOf)
 
 	if error_shown != nil {
 		return basic_data, error_shown

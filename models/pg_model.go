@@ -90,4 +90,6 @@ type Pg_BasicData_ToBusiness struct {
 	Typesuscription int     `json:"typesuscription"`
 	Legalidentity   string  `json:"legalidentity"`
 	IVA             float32 `json:"iva"`
+	IsSubsidiary    bool    `json:"issubsidiary"`
+	SubsidiaryOf    int     `json:"subsidiaryof"`
 }

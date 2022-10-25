@@ -19,6 +19,8 @@ type Mo_Business struct {
 	PaymentMethods []Mo_PaymenthMeth `bson:"paymentmethods" json:"paymentmethods"`
 	View           int               `bson:"view" json:"view"`
 	Uniquename     string            `bson:"uniquename" json:"uniquename"`
+	IsSubsidiary   bool              `bson:"issubsidiary" json:"issubsidiary"`
+	SubsidiaryOf   int               `bson:"subsidiaryof" json:"subsidiaryof"`
 }
 
 type Mo_Banner struct {
